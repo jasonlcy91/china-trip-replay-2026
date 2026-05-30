@@ -207,6 +207,7 @@ const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(
 
 export default defineConfig({
   plugins,
+  base: '/china-trip-replay-2026/',  // Add this line
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
