@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>杭州 · 家庭旅行</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=Ma+Shan+Zheng&family=Nunito:wght@500;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:        #1a1208;
+      --paper:      #faf7f2;
+      --warm:       #c8903a;
+      --warm-light: #f5e8ce;
+      --radius:     14px;
+      --font-serif: "Ma Shan Zheng", "Noto Serif SC", serif;
+      --font-sans:  "ZCOOL KuaiLe", "PingFang SC", "Hiragino Sans GB", sans-serif;
+      --font-serif-en: "Nunito", "Quicksand", "Varela Round", -apple-system, sans-serif;
+      --font-sans-en:  "Nunito Sans", "Nunito", "Quicksand", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      --font-scale: 1;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      font-size: calc(100% * var(--font-scale));
+    }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.lang-en {
+      font-family: var(--font-sans-en);
+    }
+    body.lang-en .hero-title,
+    body.lang-en .hero-subtitle,
+    body.lang-en .hero-weather,
+    body.lang-en .section-title,
+    body.lang-en .lb-slide-title,
+    body.lang-en .note-heading,
+    body.lang-en .note-btn,
+    body.lang-en .note-textarea,
+    body.lang-en .day-badge {
+      font-family: var(--font-serif-en);
+    }
+
+    /* ══════════════════════════════════════
+       LANGUAGE TOGGLE
+    ══════════════════════════════════════ */
+    .lang-bar {
+      position: fixed;
+      top: 0.5rem; left: 0.5rem;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem;
+      border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .lang-btn.active {
+      background: var(--warm);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       FONT SIZE BAR
+    ══════════════════════════════════════ */
+    .font-size-bar {
+      position: fixed;
+      top: 3rem; left: 0.5rem;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .font-size-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem;
+      border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .font-size-btn.active {
+      background: var(--warm);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       1. INTRO
+    ══════════════════════════════════════ */
+    .intro-section {
+      background:
+        linear-gradient(
+          180deg,
+          rgba(10,18,12,0.55) 0%,
+          rgba(8,16,10,0.38) 40%,
+          rgba(4,10,6,0.72) 100%
+        ),
+        url("background/杭州西湖.jpg") center/cover no-repeat;
+      padding: 1.8rem 0 0;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .intro-text { padding: 0 1.5rem 0.9rem; }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 10vw, 2.8rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.3);
+    }
+    .hero-subtitle {
+      margin-top: 0.5rem;
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 3.8vw, 1.3rem);
+      color: #d4e8c2;
+      letter-spacing: 0.18em;
+      opacity: 0.9;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    }
+    .hero-weather {
+      margin-top: 0.4rem;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.68);
+      letter-spacing: 0.06em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    /* ── shared horizontal track ── */
+    .h-track {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.4rem 0.7rem 1.4rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .h-track::-webkit-scrollbar { display: none; }
+
+    .h-card {
+      flex: 0 0 88vw;
+      max-width: 100%;
+      scroll-snap-align: center;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.32);
+      position: relative;
+      aspect-ratio: 2/3;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.18s ease;
+    }
+    .h-card:active { transform: scale(0.96); }
+    .h-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      -webkit-touch-callout: none;
+    }
+    .h-card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.55rem 0.7rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      color: #fff;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════
+       Section wrapper
+    ══════════════════════════════════════ */
+    section { padding: 1.25rem 1.25rem; }
+    .section-header {
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    /* ══════════════════════════════════════
+       2. GALLERY
+    ══════════════════════════════════════ */
+    .gallery-section { background: var(--paper); padding: 1.8rem 0 0; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    .gallery-tile {
+      position: relative;
+      border-radius: 9px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .gallery-tile:active { transform: scale(0.95); }
+    .gallery-tile img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+      -webkit-touch-callout: none;
+    }
+    .gallery-tile:hover img { transform: scale(1.07); }
+    .tile-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.45rem 0.35rem 0.4rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ══════════════════════════════════════
+       3. KNOW MORE
+    ══════════════════════════════════════ */
+    .know-section { background: #fffef9; padding: 1.8rem 0 0; }
+
+    .know-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6rem;
+    }
+    .know-card {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 4/5;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+      transition: transform 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .know-card:active { transform: scale(0.95); }
+    .know-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+      -webkit-touch-callout: none;
+    }
+    .know-card:hover img { transform: scale(1.05); }
+    .know-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.6rem 0.5rem 0.55rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ══════════════════════════════════════
+       LIGHTBOX
+    ══════════════════════════════════════ */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: #0d0b08;
+    }
+    .lightbox.open { display: block; animation: lbFadeIn 0.18s ease; }
+    @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+    .lb-close {
+      position: absolute;
+      bottom: 1.0rem; right: 1.0rem;
+      z-index: 10;
+      background: rgba(255,255,255,0.13);
+      border: none;
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s;
+    }
+    .lb-close:active { background: rgba(255,255,255,0.25); }
+
+    .lb-strip {
+      display: flex;
+      width: 100%; height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .lb-strip::-webkit-scrollbar { display: none; }
+
+    .lb-slide {
+      flex: 0 0 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .lb-slide-img {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d0b08;
+      position: relative;
+    }
+    .lb-slide-img img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+      -webkit-touch-callout: none;
+    }
+    .lb-slide-img video {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+      outline: none;
+    }
+
+    .lb-slide-info {
+      flex-shrink: 0;
+      padding: 0.75rem 1.3rem 1.8rem;
+      background: #100d07;
+      color: #fff;
+    }
+
+    .lb-dots {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin-bottom: 0.55rem;
+    }
+    .lb-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+    .lb-dot.active { background: var(--warm); transform: scale(1.35); }
+
+    .lb-slide-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .lb-slide-desc {
+      font-size: 0.92rem;
+      line-height: 1.72;
+      color: rgba(255,255,255,0.55);
+    }
+    .lb-slide-tag {
+      display: inline-block;
+      margin-top: 0.55rem;
+      padding: 0.18rem 0.55rem;
+      background: rgba(200,144,58,0.18);
+      color: var(--warm);
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* ══════════════════════════════════════
+       4. MAP & GUIDE
+    ══════════════════════════════════════ */
+    .map-section { background: #fff; padding: 1.8rem 0 0; }
+
+    .map-list { list-style: none; margin-top: 1rem; }
+    .map-day {
+      display: flex;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #ede8df;
+    }
+    .map-day:last-child { border-bottom: none; }
+    .day-badge {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--warm);
+      color: #fff;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .day-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+    .day-stops {
+      font-size: 0.9rem;
+      color: #6b5b45;
+      line-height: 1.6;
+    }
+    .day-stops span { display: inline-block; margin-right: 0.5rem; }
+    .day-stops span::before { content: "· "; color: var(--warm); }
+
+    /* ══════════════════════════════════════
+       FOOD STICKY BTN
+    ══════════════════════════════════════ */
+    .home-btn {
+      position: fixed;
+      bottom: 5.5rem; right: 1.5rem;
+      z-index: 400;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+      transition: transform 0.18s, box-shadow 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .home-btn:active { transform: scale(0.88); }
+    .home-btn:hover  { box-shadow: 0 6px 28px rgba(200,144,58,0.32); transform: scale(1.08); }
+    body:has(.lightbox.open) .home-btn { display: none; }
+
+    .food-btn {
+      position: fixed;
+      bottom: 1.5rem; right: 1.25rem;
+      z-index: 100;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2.5px solid var(--warm-light);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .food-btn:active { transform: scale(0.9); }
+    .food-btn:hover  { box-shadow: 0 6px 28px rgba(200,144,58,0.32); transform: scale(1.06); }
+
+    .max-w { padding: 0 0.7rem; }
+
+    /* ══════════════════════════════════════
+       NOTE SYSTEM
+    ══════════════════════════════════════ */
+    .note-dot {
+      position: absolute;
+      top: 0.4rem; right: 0.4rem;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--warm);
+      color: #fff;
+      font-size: 0.62rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.38);
+      pointer-events: none;
+      z-index: 5;
+      line-height: 1;
+    }
+
+    /* long-press ripple ring while holding */
+    .lp-ripple {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 2.5px solid var(--warm);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 6;
+      transition: opacity 0.1s;
+    }
+    .lp-ripple.active { opacity: 1; animation: lpPulse 0.5s ease forwards; }
+    @keyframes lpPulse {
+      0%   { opacity: 0.7; transform: scale(1); }
+      100% { opacity: 0;   transform: scale(1.06); }
+    }
+
+    .note-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0,0,0,0.46);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .note-modal.open { display: flex; animation: lbFadeIn 0.2s ease; }
+
+    .note-inner {
+      background: var(--paper);
+      border-radius: var(--radius) var(--radius) 0 0;
+      width: 100%; max-width: 540px;
+      box-shadow: 0 -4px 32px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+    .note-preview {
+      width: 100%; height: 130px;
+      object-fit: cover; display: block;
+    }
+    .note-body { padding: 0.85rem 1rem 2rem; }
+    .note-heading {
+      font-family: var(--font-serif);
+      font-size: 1rem; font-weight: 700;
+      margin-bottom: 0.5rem; color: var(--ink);
+    }
+    .note-textarea {
+      width: 100%; min-height: 82px;
+      border: 1.5px solid #e0d8cc; border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+      font-family: var(--font-sans); font-size: 0.95rem;
+      color: var(--ink); background: #fff;
+      resize: vertical; outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    .note-textarea:focus { border-color: var(--warm); }
+    .note-actions {
+      display: flex; gap: 0.5rem;
+      margin-top: 0.7rem; justify-content: flex-end;
+    }
+    .note-btn {
+      border: none; border-radius: 20px;
+      padding: 0.38rem 1rem;
+      font-family: var(--font-sans); font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s; user-select: none; -webkit-user-select: none;
+    }
+    .note-btn:active { opacity: 0.7; }
+    .note-btn-cancel { background: #ede8df; color: var(--ink); }
+    .note-btn-delete { background: #ffe0dc; color: #c0392b; }
+    .note-btn-save   { background: var(--warm); color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-bar">
+  <button class="lang-btn active" id="btn-zh">中</button>
+  <button class="lang-btn" id="btn-en">E</button>
+</div>
+
+<!-- FONT SIZE TOGGLE -->
+<div class="font-size-bar">
+  <button class="font-size-btn active" id="fs-s" data-size="1.05">小</button>
+  <button class="font-size-btn" id="fs-l" data-size="1.2">大</button>
+</div>
+
+<!-- CONFIG -->
+<script>
+  let LANG = 'zh';
+
+  const SITE = {
+    zh: { city: "杭州", subtitle: "人间天堂 · 西湖印象",                 pageTitle: "杭州 · 家庭旅行"       },
+    en: { city: "Hangzhou", subtitle: "Paradise on Earth · Legend of West Lake", pageTitle: "Hangzhou · Family Trip" },
+  };
+
+  const WEATHER = {
+    zh: "☀️  28° · 晴 · 宜出行",
+    en: "☀️  28°C · Sunny · Perfect Day Out",
+  };
+
+  const SIGNATURE_IMAGES = [
+    { img: "signature_images/杭州西湖.jpg",        zh: "西湖全景",              en: "West Lake Panorama"              },
+    { img: "signature_images/东坡肉 楼外楼.jpg",   zh: "东坡肉 · 楼外楼",      en: "Dongpo Pork · Louwailou"         },
+    { img: "signature_images/龙井村.jpg",         zh: "龙井茶 🍵",            en: "LongJing Tea"                     },
+    { img: "signature_images/印象西湖.jpg",        zh: "印象西湖",              en: "Impression West Lake"            },
+  ];
+
+  const GALLERY = [
+    {
+      img: "gallery_tiles/龙井村·龙井茂居.jpg",
+      zh: { title: "龙井村 · 龙井茂居 · 中式下午茶 · 周杰伦带火🔥", desc: "西湖龙井茶的核心产地，层层茶山环绕村落。春日采茶踏青、夏夜纳凉观星、秋闻满山桂香。周杰伦打卡过的中式下午茶就藏于此——在茶山之巅泡一壶明前龙井，看云卷云舒，岁月静好。\n\n📌 美团可团购\n📍 导航：打车到「龙井村村委会」，在龙井村牌坊处下车\n🚶 步行：往里走约15-20分钟即达，途中会路过「82」——Chanel广告拍摄地，也很漂亮", tag: "茶文化 · 秘境" },
+      en: { title: "Longjing Village · Tea Retreat", desc: "The heartland of West Lake Longjing tea — terraced tea plantations wrapping around the village. Pick tea leaves in spring, stargaze on summer nights, breathe in osmanthus-scented autumn air. Jay Chou was spotted here enjoying Chinese afternoon tea: brew a pot of pre-Qingming Longjing on a tea mountain summit, and watch the clouds drift by.\n\n📌 Meituan group-buy available\n📍 Navigate: Taxi to 'Longjing Village Committee' and alight at the village archway\n🚶 Walk: ~15–20 min on foot; en route you'll pass '82' — the Chanel ad shoot location, also gorgeous", tag: "Tea Culture · Retreat" },
+    },
+    {
+      img: "gallery_tiles/胡雪岩旧居 - 江南第一豪宅.jpg",
+      zh: { title: "胡雪岩旧居", desc: "一步一景，如诗如画。胡雪岩——清末红顶商人，富可敌国的著名徽商；其宅邸占地10.8亩，耗资300万白银，是江南园林艺术的典范之作，尽显一代巨商的奢华生活与审美气度。", tag: "园林 · 历史" },
+      en: { title: "Hu Xueyan's Former Residence", desc: "Every step reveals a new scene, like a living poem. Hu Xueyan — the famed 'Red-Hat Merchant' of the late Qing Dynasty, a Huizhou businessman of legendary wealth — built this 10.8-mu mansion at a cost of 3 million taels of silver. A masterpiece of Jiangnan garden architecture and a window into the opulent life of China's most celebrated merchant.", tag: "Garden · History" },
+    },
+    {
+      img: "gallery_tiles/杭州西湖.jpg",
+      zh: { title: "杭州西湖", desc: "世界文化遗产，中国十大风景名胜之一。三面云山一面城——苏堤春晓、三潭印月、雷峰夕照，每一处都是传颂千年的江南画卷，杭州的灵魂所在。", tag: "世界遗产" },
+      en: { title: "West Lake", desc: "A UNESCO World Heritage site and one of China's top ten scenic wonders. Cloud-capped hills on three sides embrace the city — Su Causeway at dawn, Three Pools Mirroring the Moon, Leifeng Pagoda at sunset: every view is a Jiangnan painting come to life, the very soul of Hangzhou.", tag: "World Heritage" },
+    },
+    {
+      img: "gallery_tiles/西湖·断桥残雪.jpg",
+      zh: { title: "断桥残雪", desc: "因桥身在雪后部分消融、远看似断非断而得名。这里也承载了许仙与白娘子借伞初遇的千年传说——站在桥上，仿佛能听见那段最美的邂逅。", tag: "西湖十景" },
+      en: { title: "Broken Bridge · Melting Snow", desc: "Named for the illusion after snowfall, when partial thaw makes the bridge appear broken from afar. It also carries the thousand-year legend of Xu Xian and Lady White Snake's fateful umbrella encounter — stand here, and you can almost hear the most beautiful meet-cute in Chinese folklore.", tag: "West Lake Scenic" },
+    },
+    {
+      img: "gallery_tiles/柳浪闻莺.jpg",
+      zh: { title: "柳浪闻莺", desc: "西湖十景之一，位于西湖东南岸，对望苏堤，题名景观始于南宋。\n\n📍【机位怎么走】\n1️⃣ 导航至「柳浪闻莺东门」进入\n2️⃣ 直行至岔路口右转，沿小路走约300米\n3️⃣ 看到古风石桥「新横河桥」——桥下就是秘境入口！\n4️⃣ 桥左侧见「闻莺馆」石碑，左转下石阶\n5️⃣ 豁然开朗！绿树、桥洞、倒影构成油画世界\n\n📸 推荐拍摄时间：早晨6-9点，人少光柔，倒影绝美\n👗 穿搭建议：汉服/白裙更出片\n🕘 开放时间：全年全天免费", tag: "西湖十景" },
+      en: { title: "Orioles Singing in the Willows", desc: "One of the Ten Scenes of West Lake on the southeastern shore, facing Su Causeway. Named since the Southern Song Dynasty.\n\n📍 How to Find the Best Photo Spot\n1️⃣ Enter via the 'Orioles Singing in the Willows East Gate'\n2️⃣ Walk straight, turn right at the fork, follow the path ~300m\n3️⃣ Spot the ancient stone 'Xinhenghe Bridge' — the secret spot is under it!\n4️⃣ Find the 'Oriole Pavilion' stone marker on the left, turn left down the steps\n5️⃣ The reveal: green trees, arched bridge, reflections — an oil painting come to life\n\n📸 Best time: 6–9am — few crowds, soft light, perfect reflections\n👗 Style tip: Hanfu or a white dress photographs beautifully here\n🕘 Hours: Open year-round, 24h, free", tag: "West Lake Scenic" },
+    },
+    {
+      img: "gallery_tiles/飞来峰·灵隐寺.jpg",
+      zh: { title: "飞来峰 · 灵隐寺", desc: "东南佛国，千年古刹。飞来峰石窟造像遍布山崖，五代至元的佛教雕刻群蔚为壮观。灵隐寺殿宇庄严宏大——济公活佛的传说与禅意钟声，让这里成为杭州最有灵气的朝圣之地。", tag: "古刹 · 石窟" },
+      en: { title: "Feilai Peak · Lingyin Temple", desc: "A Buddhist kingdom of the southeast — Feilai Peak's cliffs are covered with grotto carvings from the Five Dynasties through Yuan era. Lingyin Temple's majestic halls echo with the legend of the Mad Monk Ji Gong and the deep resonance of Zen bells, making this Hangzhou's most spiritually charged sanctuary.", tag: "Temple · Grottoes" },
+    },
+    {
+      img: "gallery_tiles/良渚古城遗址公园.jpg",
+      zh: { title: "良渚古城遗址", desc: "距今约5300至4300年的新石器时代城址，实证了中华五千年文明史。恢弘的水利系统、精美的玉琮、宏大的古城格局——漫步遗址公园，感受中国历史长河的悠远与厚重。", tag: "世界遗产" },
+      en: { title: "Liangzhu Ancient City Ruins", desc: "A Neolithic city dating back 5,300–4,300 years — definitive proof of China's 5,000-year civilisation. A sophisticated water conservancy system, exquisite jade cong, and a grand urban layout await as you walk these ancient grounds and feel the immense depth of Chinese history.", tag: "World Heritage" },
+    },
+    {
+      img: "gallery_tiles/中国京杭大运河博物馆.jpg",
+      zh: { title: "京杭大运河博物馆", desc: "大运河承载着历史的沧桑与华夏文明的源远流长。博物馆展示了这条世界上最长的运河——全长1794公里——如何贯通南北、滋养千年繁华。杭州是运河南端起点，意义非凡。", tag: "历史 · 文化" },
+      en: { title: "Grand Canal Museum", desc: "The Grand Canal carries centuries of history and the enduring flow of Chinese civilisation. The museum reveals how this 1,794km waterway — the world's longest — connected north and south, nourishing a thousand years of prosperity. Hangzhou holds special significance as the canal's southern terminus.", tag: "History · Culture" },
+    },
+    {
+      img: "gallery_tiles/南宋御街 · 800年前的CBD!.jpg",
+      zh: { title: "南宋御街", desc: "800年前南宋皇家的专用道路，堪称古代CBD。陈列馆里展示着御街遗址，见证南宋全盛时期杭州古都的繁华景象。如今主街与支线隐匿着无数小店铺、小饭馆和独立咖啡馆，古今交融别有韵味。", tag: "古街 · 历史" },
+      en: { title: "Southern Song Imperial Street", desc: "The royal boulevard of Hangzhou 800 years ago — the CBD of the Southern Song Dynasty. The on-site museum displays excavated street ruins that bear witness to the ancient capital at its zenith. Today, the main street and its alleyways hide countless boutiques, eateries, and indie cafés — a seamless blend of past and present.", tag: "Historic Street" },
+    },
+    {
+      img: "gallery_tiles/小河直街.jpg",
+      zh: { title: "小河直街", desc: "白墙黛瓦，江南风味的古街。沿河而建的民居保留着老杭州的生活气息，茶馆、手作小店、独立书店散落其间。傍晚时分灯笼渐亮，是寻找老底子杭州味道的最佳去处。", tag: "古街 · 生活" },
+      en: { title: "Xiaohe Straight Street", desc: "White walls, grey tiles, pure Jiangnan charm. Canal-side folk houses preserve the lived-in warmth of old Hangzhou, with teahouses, artisan workshops, and indie bookshops tucked along the lane. When lanterns flicker on at dusk, it's the best place to taste the real flavour of old Hangzhou.", tag: "Old Street · Life" },
+    },
+    {
+      img: "gallery_tiles/晓霞弄.jpg",
+      zh: { title: "晓霞弄", desc: "仿佛瞬间从喧嚣走入静谧——这条隐匿于城中的小巷，保留着最原汁原味的老杭州生活场景。青石板路、斑驳墙面、邻里话家常，每一帧都是市井烟火与岁月温柔的写意画。", tag: "隐秘小巷" },
+      en: { title: "Xiaoxia Lane", desc: "As if stepping instantly from clamour into calm — this hidden lane preserves the most authentic scenes of old Hangzhou life. Cobblestone paths, weathered walls, neighbours chatting on doorsteps: every frame is a brush-and-ink sketch of everyday warmth and the gentleness of passing time.", tag: "Hidden Alley" },
+    },
+    {
+      img: "gallery_tiles/银泰in77.jpg",
+      zh: { title: "银泰 in77", desc: "坐落西湖湖滨的杭州商业地标。国际大牌、潮流买手店、网红美食云集，古典园林式街区设计让购物也成为一道风景。这里是感受杭州现代都市脉搏与时尚活力的不二之选。", tag: "商业 · 购物" },
+      en: { title: "Intime in77", desc: "Hangzhou's premier commercial landmark on the West Lake lakeshore. International luxury brands, trendsetting boutiques, and viral food spots converge in a classical-garden-inspired retail complex. The place to feel Hangzhou's modern metropolitan pulse and fashion-forward energy.", tag: "Shopping · Lifestyle" },
+    },
+  ];
+
+  const KNOW_MORE = [
+    {
+      img: "know_more/京杭大运河·中国千年运河.jpg",
+      zh: { title: "京杭大运河", desc: "全长1794公里，贯穿中国南北六省市，始凿于春秋，盛于隋唐，至今已有2500余年历史。杭州作为运河南端起点，因水而兴、因河而盛——运河不仅运输漕粮，更承载了千年文化与商业的南北交融。", tag: "世界遗产" },
+      en: { title: "The Grand Canal", desc: "Stretching 1,794km across six provinces and municipalities, this waterway was begun in the Spring and Autumn period and flourished under the Sui and Tang dynasties. At 2,500+ years old, Hangzhou — its southern terminus — rose and thrived because of it. Beyond grain transport, the canal carried culture and commerce between north and south for a millennium.", tag: "World Heritage" },
+    },
+    {
+      img: "know_more/大自然鬼斧神工·钱塘江观潮.mov",
+      thumb: "know_more/video_thumbnails/大自然鬼斧神工·钱塘江观潮.jpg",
+      zh: { title: "钱塘江观潮", desc: "每年农历八月十八，钱塘江大潮以排山倒海之势奔涌而来——这是世界上最壮观的潮汐现象之一，潮头最高可达9米。大自然的鬼斧神工，让古人留下'八月涛声吼地来'的千古名句。", tag: "自然奇观" },
+      en: { title: "Qiantang River Tidal Bore", desc: "Every year on the 18th day of the 8th lunar month, the Qiantang tidal bore surges in like a collapsing mountain — one of the world's most spectacular tidal phenomena, with waves reaching up to 9 metres. As an ancient poet wrote: 'In the eighth month, the roaring tide shakes the very earth.'", tag: "Natural Wonder" },
+    },
+    {
+      img: "know_more/杭州东坡肉发明家 - 苏轼 苏东坡.mov",
+      thumb: "know_more/video_thumbnails/杭州东坡肉发明家 - 苏轼 苏东坡.png",
+      zh: { title: "东坡肉的由来", desc: "东坡肉源自北宋大文豪苏轼（苏东坡）。他在杭州任知州时疏浚西湖，百姓送来猪肉致谢，苏轼以文火慢炖、加酱调色，烹制出'酥烂不碎、肥而不腻'的千古名菜。一碗东坡肉，半部杭州史——这是美食与文化的完美交融。", tag: "美食典故" },
+      en: { title: "The Origin of Dongpo Pork", desc: "Dongpo Pork was created by the great Song Dynasty poet-official Su Shi (Su Dongpo). While serving as Hangzhou's governor, he dredged West Lake. Grateful locals gifted him pork, which he braised slowly with soy seasoning — inventing a dish 'tender yet intact, rich yet never greasy'. A bowl of Dongpo Pork is half of Hangzhou's story.", tag: "Food Legend" },
+    },
+    {
+      img: "know_more/杭州东坡肉发明家 - 苏轼 苏东坡 2.mov",
+      thumb: "know_more/video_thumbnails/杭州东坡肉发明家 - 苏轼 苏东坡 2.png",
+      zh: { title: "苏东坡与杭州", desc: "苏轼两度为官杭州，不仅留下了苏堤春晓这一西湖胜景，更以诗词赋予了杭州灵魂——'欲把西湖比西子，淡妆浓抹总相宜'。他与杭州的故事，是文人与城市最美的双向奔赴。", tag: "文人 · 城市" },
+      en: { title: "Su Dongpo & Hangzhou", desc: "Su Shi served in Hangzhou twice, leaving behind not only Su Causeway — one of West Lake's most beloved sights — but also the poetic soul of the city: 'West Lake, like the legendary beauty Xi Shi, is captivating whether lightly adorned or richly attired.' His bond with Hangzhou is the most beautiful love story between a poet and a city.", tag: "Poet · City" },
+    },
+    {
+      img: "know_more/良渚文明 LiangZhu Civilisation.mov",
+      thumb: "know_more/video_thumbnails/良渚文明 LiangZhu Civilisation.png",
+      zh: { title: "良渚文明探秘", desc: "良渚文明距今约5300-4300年，是东亚最早进入国家形态的文明——拥有宏大的城址、复杂的水利系统、精美的玉礼器。2019年列入世界遗产名录，实证了中华文明五千年的厚重与辉煌。", tag: "史前文明" },
+      en: { title: "Liangzhu Civilisation", desc: "Dating back 5,300–4,300 years, Liangzhu was the earliest civilisation in East Asia to reach state-level complexity — with a grand city, sophisticated waterworks, and exquisite jade ritual objects. Inscribed as a UNESCO World Heritage site in 2019, it stands as definitive proof of China's 5,000-year civilisation.", tag: "Ancient Civilisation" },
+    },
+    {
+      img: "know_more/良渚文明概况1.jpg",
+      zh: { title: "良渚玉礼器", desc: "玉琮、玉璧、玉钺——良渚文明以玉为尊，这些精美的玉礼器代表了中国史前玉器制作的最高成就。玉琮上的神人兽面纹神秘而繁复，至今仍令考古学家们惊叹不已。", tag: "玉器 · 考古" },
+      en: { title: "Liangzhu Jade Ritual Objects", desc: "Jade cong, bi discs, and yue axes — Liangzhu civilisation revered jade above all. These exquisite ritual objects represent the pinnacle of prehistoric Chinese jade craftsmanship. The mysterious deity-and-beast motifs carved into cong vessels still astonish archaeologists today.", tag: "Jade · Archaeology" },
+    },
+    {
+      img: "know_more/良渚文明概况2.jpg",
+      zh: { title: "良渚古城格局", desc: "良渚古城总面积达290万平方米，由内城、外郭、水利系统三层结构组成——这是距今5000年前东亚最大的城市，城市规划之精妙让现代人也为之叹服。", tag: "古城 · 规划" },
+      en: { title: "Liangzhu City Layout", desc: "Covering 2.9 million square metres, Liangzhu Ancient City featured a three-tier structure of inner city, outer wall, and water conservancy system — the largest city in East Asia 5,000 years ago. Its urban planning sophistication still inspires awe in modern architects and city planners.", tag: "Ancient City · Planning" },
+    },
+    {
+      img: "know_more/良渚文明概况3.jpg",
+      zh: { title: "良渚稻作文明", desc: "良渚文明拥有发达的水稻农业——考古发现了规模宏大的稻田遗迹和完备的灌溉系统。稻作农业是良渚社会复杂化与国家形成的重要经济基础，证明了长江流域也是中华文明的重要摇篮。", tag: "农业 · 文明起源" },
+      en: { title: "Liangzhu Rice Agriculture", desc: "Liangzhu civilisation possessed advanced rice agriculture — archaeologists have uncovered vast paddy field remains and a complete irrigation network. This agricultural foundation powered Liangzhu's social complexity and state formation, proving the Yangtze River basin is equally a cradle of Chinese civilisation.", tag: "Agriculture · Origins" },
+    },
+  ];
+
+  const MAP_IMAGES = [
+    { img: "map_and_guide/西湖手绘地图.jpg", zh: "西湖手绘地图",   en: "Hand-Drawn West Lake Map"   },
+    { img: "map_and_guide/路线手绘图.jpg",   zh: "路线手绘图",       en: "Hand-Drawn Route Map"       },
+    { img: "map_and_guide/路线板块.jpg",     zh: "游玩路线推荐",     en: "Recommended Routes"         },
+    { img: "map_and_guide/高德地图.png",     zh: "高德导航地图",     en: "Gaode Navigation Map"       },
+  ];
+
+  const MAP_GUIDE = [];
+
+  const FOOD_IMAGES = [
+    {
+      img: "food/东坡肉 楼外楼.jpg",
+      zh: { title: "东坡肉 · 楼外楼", desc: "'楼外楼'——杭州最负盛名的百年餐馆，坐落在西湖孤山麓。这里的东坡肉以古法慢炖，色泽红亮、肥而不腻、酥烂入味。来杭州若不登楼外楼品东坡肉，便不算真正到过杭州。", tag: "经典名菜" },
+      en: { title: "Dongpo Pork · Louwailou", desc: "Louwailou — Hangzhou's most celebrated century-old restaurant, perched at the foot of Solitary Hill by West Lake. Their Dongpo Pork is slow-braised using the traditional method: mahogany-red, rich yet never greasy, melt-in-your-mouth perfection. If you haven't had Dongpo Pork at Louwailou, you haven't truly been to Hangzhou.", tag: "Signature Dish" },
+    },
+    {
+      img: "food/同兴春·杭州面馆拌川(西湖店).jpg",
+      zh: { title: "同兴春 · 杭州拌川", desc: "拌川是杭州人最日常的面食——不同于汤面，它以大火爆炒的浇头拌入筋道面条，镬气十足。同兴春是本地人推荐的老面馆，一碗拌川配一碟卤味，就是最地道的杭州早餐。", tag: "杭州面食" },
+      en: { title: "Tongxingchun · Hangzhou Banchuan Noodles", desc: "Banchuan is Hangzhou's daily noodle — unlike soup noodles, it's tossed with wok-hei-rich stir-fried toppings over chewy noodles. Tongxingchun is a time-honoured noodle house endorsed by locals: a bowl of banchuan with a side of braised delicacies is the most authentic Hangzhou breakfast.", tag: "Hangzhou Noodles" },
+    },
+    {
+      img: "food/葱包烩, 鼓楼附近.jpg",
+      zh: { title: "葱包烩（鼓楼附近）", desc: "杭州街头最传奇的小吃——'葱包烩'的名字暗藏历史玄机：相传南宋百姓痛恨奸臣秦桧，将面皮裹油条、葱段压烤，象征把'烩'(秦桧)包起来吃掉。鼓楼附近的葱包烩最是正宗，外皮焦脆、葱香四溢，咬一口就是八百年的杭城烟火。", tag: "街头小吃" },
+      en: { title: "Congbaohui (Near Drum Tower)", desc: "Hangzhou's most legendary street snack — its name hides a historical punchline: when Song Dynasty commoners hated the traitorous minister Qin Hui (秦桧), they wrapped dough around fried dough sticks and scallions, pressed and grilled it, symbolically 'wrapping up and eating' the villain. The most authentic version is found near the Drum Tower — crispy shell, fragrant scallion, every bite carrying 800 years of Hangzhou's fiery spirit.", tag: "Street Food" },
+    },
+    {
+      img: "food/杭州美食地图.jpg",
+      zh: { title: "杭州美食地图", desc: "杭州的味道，藏在大街小巷里。从西湖醋鱼、龙井虾仁等经典杭帮菜，到街头巷尾的片儿川、定胜糕——这份地图带你用味蕾走遍人间天堂。", tag: "美食总览" },
+      en: { title: "Hangzhou Food Map", desc: "Hangzhou's flavours hide in its streets and lanes. From West Lake vinegar fish and Longjing shrimp to humble pian'erchuan noodles and victory cakes — this map guides your taste buds through paradise on earth.", tag: "Food Guide" },
+    },
+    {
+      img: "food/杭州饭店TOP8.jpg",
+      zh: { title: "杭州饭店 TOP 8（总览）", desc: "精选杭州最具代表性的8家餐厅，涵盖百年老字号、精致杭帮菜、网红创意料理。每一家都是经过无数本地人验证的口碑之选。", tag: "餐厅推荐" },
+      en: { title: "Hangzhou Top 8 Restaurants (Overview)", desc: "Eight of Hangzhou's most representative restaurants — from century-old heritage brands to refined Hangzhou cuisine and trendy creative dining. Every pick verified by countless local food lovers.", tag: "Restaurant Guide" },
+    },
+    {
+      img: "food/杭州饭店TOP8-1.jpg",
+      zh: { title: "杭州饭店 TOP 8（一）", desc: "TOP 8 第1-2家：百年老字号与湖景餐厅，品正宗杭帮菜，赏西湖美景，是来杭州不可错过的经典用餐体验。", tag: "餐厅推荐" },
+      en: { title: "Hangzhou Top 8 Restaurants (I)", desc: "Picks 1–2: A century-old heritage restaurant and a lakeside dining room — authentic Hangzhou cuisine paired with West Lake views. The classic Hangzhou dining experience not to be missed.", tag: "Restaurant Guide" },
+    },
+    {
+      img: "food/杭州饭店TOP8-2.jpg",
+      zh: { title: "杭州饭店 TOP 8（二）", desc: "TOP 8 第3-4家：隐藏在老街巷弄中的口碑好店，本地人从小吃到大的味道，最地道的杭州味觉记忆。", tag: "餐厅推荐" },
+      en: { title: "Hangzhou Top 8 Restaurants (II)", desc: "Picks 3–4: Beloved spots hidden in old alleyways — the flavours Hangzhou locals have grown up with, the city's most authentic taste memories.", tag: "Restaurant Guide" },
+    },
+    {
+      img: "food/杭州饭店TOP8-3.jpg",
+      zh: { title: "杭州饭店 TOP 8（三）", desc: "TOP 8 第5-6家：新派杭帮料理与创意融合菜，在传承中创新，用现代手法演绎千年杭味。", tag: "餐厅推荐" },
+      en: { title: "Hangzhou Top 8 Restaurants (III)", desc: "Picks 5–6: Modern Hangzhou cuisine and creative fusion — innovating within tradition, reinterpreting thousand-year-old flavours through a contemporary lens.", tag: "Restaurant Guide" },
+    },
+    {
+      img: "food/杭州饭店TOP8-4.jpg",
+      zh: { title: "杭州饭店 TOP 8（四）", desc: "TOP 8 第7-8家：隐匿于山水之间的精致食舍，远离喧嚣，在绝美环境中享受舌尖上的杭州。", tag: "餐厅推荐" },
+      en: { title: "Hangzhou Top 8 Restaurants (IV)", desc: "Picks 7–8: Exquisite eateries tucked among hills and waters — escape the crowds and savour Hangzhou on your tongue in breathtaking settings.", tag: "Restaurant Guide" },
+    },
+  ];
+
+  const UI_TEXT = {
+    zh: { gallery: "景点打卡", knowMore: "杭州知多少？", mapGuide: "地图 · 指南", foodLabel: "查看美食推荐",
+          noteTitle: "我的备注", notePlaceholder: "写下你的想法…",
+          noteSave: "保存", noteCancel: "取消", noteDelete: "删除" },
+    en: { gallery: "Sights",   knowMore: "Did You Know?", mapGuide: "Map & Guide", foodLabel: "View Food Guide",
+          noteTitle: "My Note", notePlaceholder: "Write a note…",
+          noteSave: "Save",   noteCancel: "Cancel",  noteDelete: "Delete" },
+  };
+</script>
+
+<!-- 1. INTRO -->
+<section class="intro-section">
+  <div class="intro-text">
+    <h1 class="hero-title" id="hero-title"></h1>
+    <p class="hero-subtitle" id="hero-subtitle"></p>
+    <p class="hero-weather" id="hero-weather"></p>
+  </div>
+  <div class="h-track" id="sig-track"></div>
+</section>
+
+<!-- 2. GALLERY -->
+<section class="gallery-section">
+  <div class="max-w">
+    <div class="section-header">
+      <h2 class="section-title" id="gallery-title"></h2>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- 3. KNOW MORE -->
+<section class="know-section">
+  <div class="max-w">
+    <div class="section-header">
+      <h2 class="section-title" id="know-title"></h2>
+    </div>
+    <div class="know-grid" id="know-grid"></div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lb-close" aria-label="关闭">✕</button>
+  <div class="lb-strip" id="lb-strip"></div>
+</div>
+
+<!-- 4. MAP & GUIDE -->
+<section class="map-section">
+  <!-- <div class="max-w"> -->
+    <div class="section-header">
+      <h2 class="section-title" id="map-title"></h2>
+    </div>
+    <div class="h-track" id="map-track"></div>
+    <ul class="map-list" id="map-list"></ul>
+  <!-- </div> -->
+</section>
+
+<!-- HOME BTN -->
+<a href="../index.html" class="home-btn" id="home-btn" title="Home">🏠</a>
+
+<!-- FOOD BTN -->
+<button class="food-btn" id="food-btn">🍜</button>
+
+<!-- NOTE MODAL -->
+<div class="note-modal" id="note-modal" role="dialog" aria-modal="true">
+  <div class="note-inner">
+    <img class="note-preview" id="note-preview" src="" alt="" />
+    <div class="note-body">
+      <div class="note-heading" id="note-heading"></div>
+      <textarea class="note-textarea" id="note-textarea" rows="4"></textarea>
+      <div class="note-actions">
+        <button class="note-btn note-btn-delete" id="note-btn-delete"></button>
+        <button class="note-btn note-btn-cancel" id="note-btn-cancel"></button>
+        <button class="note-btn note-btn-save"   id="note-btn-save"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script>
+  /* ── note storage ── */
+  function noteKey(img) { return 'note:' + img; }
+  function getNote(img) { return sessionStorage.getItem(noteKey(img)) || ''; }
+  function hasNote(img) { return !!sessionStorage.getItem(noteKey(img)); }
+  function saveNote(img, text) {
+    if (text.trim()) sessionStorage.setItem(noteKey(img), text.trim());
+    else             sessionStorage.removeItem(noteKey(img));
+  }
+
+  function refreshNoteDots() {
+    document.querySelectorAll('[data-img] .note-dot').forEach(dot => {
+      const container = dot.closest('[data-img]');
+      dot.style.display = hasNote(container.dataset.img) ? 'flex' : 'none';
+    });
+  }
+
+  /* ── note modal ── */
+  let _noteImg = '';
+  const noteModal    = document.getElementById('note-modal');
+  const noteTextarea = document.getElementById('note-textarea');
+  const noteHeading  = document.getElementById('note-heading');
+  const notePreview  = document.getElementById('note-preview');
+  const noteBtnDel   = document.getElementById('note-btn-delete');
+  const noteBtnCancel= document.getElementById('note-btn-cancel');
+  const noteBtnSave  = document.getElementById('note-btn-save');
+
+  function openNoteModal(img, title) {
+    _noteImg = img;
+    notePreview.src = img;
+    notePreview.alt = title;
+    noteHeading.textContent = title || UI_TEXT[LANG].noteTitle;
+    noteTextarea.value = getNote(img);
+    noteTextarea.placeholder = UI_TEXT[LANG].notePlaceholder;
+    noteBtnDel.style.display = hasNote(img) ? 'inline-block' : 'none';
+    noteModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => noteTextarea.focus(), 60);
+  }
+
+  function closeNoteModal() {
+    noteModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  noteBtnSave.addEventListener('click', () => {
+    saveNote(_noteImg, noteTextarea.value);
+    refreshNoteDots();
+    closeNoteModal();
+  });
+  noteBtnDel.addEventListener('click', () => {
+    saveNote(_noteImg, '');
+    refreshNoteDots();
+    closeNoteModal();
+  });
+  noteBtnCancel.addEventListener('click', closeNoteModal);
+  noteModal.addEventListener('click', e => { if (e.target === noteModal) closeNoteModal(); });
+
+  /* ── long press ── */
+  const LP_MS = 500;
+
+  function addLongPress(el, getImg, getTitle) {
+    let timer = null, startX = 0, startY = 0, fired = false;
+    const ripple = el.querySelector('.lp-ripple');
+
+    function arm(x, y) {
+      startX = x; startY = y; fired = false;
+      timer = setTimeout(() => {
+        fired = true;
+        if (ripple) { ripple.classList.remove('active'); void ripple.offsetWidth; ripple.classList.add('active'); }
+        openNoteModal(getImg(), getTitle());
+      }, LP_MS);
+    }
+    function disarm() { clearTimeout(timer); timer = null; }
+    function move(x, y) {
+      if (Math.abs(x - startX) > 8 || Math.abs(y - startY) > 8) disarm();
+    }
+
+    el.addEventListener('touchstart', e => {
+      const t = e.touches[0]; arm(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener('touchmove', e => {
+      const t = e.touches[0]; move(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener('touchend',    disarm);
+    el.addEventListener('touchcancel', disarm);
+
+    el.addEventListener('mousedown', e => { if (e.button === 0) arm(e.clientX, e.clientY); });
+    el.addEventListener('mousemove', e => move(e.clientX, e.clientY));
+    el.addEventListener('mouseup',   disarm);
+
+    /* swallow the click that follows a long press */
+    el.addEventListener('click', e => {
+      if (fired) { e.stopImmediatePropagation(); e.preventDefault(); fired = false; }
+    }, true);
+
+    el.addEventListener('contextmenu', e => e.preventDefault());
+  }
+
+  /* ── lightbox ── */
+  const lightbox = document.getElementById("lightbox");
+  const lbStrip  = document.getElementById("lb-strip");
+  let _lbItems = [], _lbLastIdx = 0;
+
+  function itemText(item) {
+    const v = item[LANG];
+    if (!v) return { title: '', desc: '', tag: '' };
+    if (typeof v === 'string') return { title: v, desc: '', tag: '' };
+    return { title: v.title || '', desc: v.desc || '', tag: v.tag || '' };
+  }
+
+  function buildSlides(items) {
+    lbStrip.innerHTML = "";
+    const n = items.length;
+    items.forEach((item, i) => {
+      const { title, desc, tag } = itemText(item);
+      const slide = document.createElement("div");
+      slide.className = "lb-slide";
+      const dotsHtml = n > 1
+        ? `<div class="lb-dots">${items.map((_, j) =>
+            `<div class="lb-dot${j === i ? " active" : ""}"></div>`).join("")}</div>`
+        : "";
+      const isVideo = /\.(mov|mp4)$/i.test(item.img);
+      const mediaHTML = isVideo
+        ? `<video src="${item.img}" controls playsinline preload="metadata"></video>`
+        : `<img src="${item.img}" alt="${title}" loading="lazy" />`;
+      slide.innerHTML = `
+        <div class="lb-slide-img" data-img="${item.img}">
+          ${mediaHTML}
+          <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+          <div class="lp-ripple"></div>
+        </div>
+        <div class="lb-slide-info">
+          ${dotsHtml}
+          ${title ? `<div class="lb-slide-title">${title}</div>` : ""}
+          ${desc  ? `<div class="lb-slide-desc">${desc}</div>`   : ""}
+          ${tag   ? `<span class="lb-slide-tag">${tag}</span>`   : ""}
+        </div>`;
+      lbStrip.appendChild(slide);
+      const imgBox = slide.querySelector('.lb-slide-img');
+      addLongPress(imgBox, () => item.img, () => itemText(item).title);
+    });
+  }
+
+  function openLightbox(items, startIdx) {
+    _lbItems = items; _lbLastIdx = startIdx;
+    buildSlides(items);
+    lightbox.classList.add("open");
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => {
+      lbStrip.children[startIdx]?.scrollIntoView({ behavior: "instant", inline: "start" });
+    });
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("lb-close").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeLightbox(); closeNoteModal(); } });
+
+  /* ── render ── */
+  function render() {
+    const ui   = UI_TEXT[LANG];
+    const site = SITE[LANG];
+
+    document.title = site.pageTitle;
+    document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
+    document.getElementById("hero-title").textContent    = site.city;
+    document.getElementById("hero-subtitle").textContent = site.subtitle;
+    document.getElementById("hero-weather").textContent   = WEATHER[LANG];
+    document.getElementById("gallery-title").textContent = ui.gallery;
+    document.getElementById("know-title").textContent    = ui.knowMore;
+    document.getElementById("map-title").textContent     = ui.mapGuide;
+
+    /* note modal button labels */
+    noteBtnSave.textContent   = ui.noteSave;
+    noteBtnCancel.textContent = ui.noteCancel;
+    noteBtnDel.textContent    = ui.noteDelete;
+    noteTextarea.placeholder  = ui.notePlaceholder;
+
+    /* sig track */
+    const sigTrack = document.getElementById("sig-track");
+    sigTrack.innerHTML = "";
+    SIGNATURE_IMAGES.forEach((item, idx) => {
+      const label = itemText(item).title;
+      const card  = document.createElement("div");
+      card.className = "h-card";
+      card.dataset.img = item.img;
+      card.innerHTML = `
+        <img src="${item.img}" alt="${label}" loading="lazy" />
+        <div class="h-card-label">${label}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(SIGNATURE_IMAGES, idx));
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      sigTrack.appendChild(card);
+    });
+
+    /* gallery grid */
+    const grid = document.getElementById("gallery-grid");
+    grid.innerHTML = "";
+    GALLERY.forEach((item, idx) => {
+      const { title } = itemText(item);
+      const tile = document.createElement("div");
+      tile.className = "gallery-tile";
+      tile.dataset.img = item.img;
+      tile.setAttribute("role", "button");
+      tile.setAttribute("tabindex", "0");
+      tile.innerHTML = `
+        <img src="${item.img}" alt="${title}" loading="lazy" />
+        <div class="tile-overlay">${title}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      tile.addEventListener("click", () => openLightbox(GALLERY, idx));
+      tile.addEventListener("keydown", e => { if (e.key === "Enter") openLightbox(GALLERY, idx); });
+      addLongPress(tile, () => item.img, () => itemText(item).title);
+      grid.appendChild(tile);
+    });
+
+    /* know more grid */
+    const knowGrid = document.getElementById("know-grid");
+    knowGrid.innerHTML = "";
+    KNOW_MORE.forEach((item, idx) => {
+      const { title } = itemText(item);
+      const thumbSrc = item.thumb || item.img;
+      const card = document.createElement("div");
+      card.className = "know-card";
+      card.dataset.img = item.img;
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      card.innerHTML = `
+        <img src="${thumbSrc}" alt="${title}" loading="lazy" />
+        <div class="know-overlay">${title}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(KNOW_MORE, idx));
+      card.addEventListener("keydown", e => { if (e.key === "Enter") openLightbox(KNOW_MORE, idx); });
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      knowGrid.appendChild(card);
+    });
+
+    /* map track */
+    const mapTrack = document.getElementById("map-track");
+    mapTrack.innerHTML = "";
+    MAP_IMAGES.forEach((item, idx) => {
+      const label = itemText(item).title;
+      const card  = document.createElement("div");
+      card.className = "h-card";
+      card.dataset.img = item.img;
+      card.style.cssText = "flex-basis:88vw;max-width:100%;";
+      card.innerHTML = `
+        <img src="${item.img}" alt="${label}" loading="lazy" />
+        <div class="h-card-label">${label}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(MAP_IMAGES, idx));
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      mapTrack.appendChild(card);
+    });
+
+    /* map guide list */
+    const mapList = document.getElementById("map-list");
+    mapList.innerHTML = "";
+    MAP_GUIDE.forEach(day => {
+      const d     = day[LANG] || day;
+      const stops = d.stops.map(s => `<span>${s}</span>`).join("");
+      mapList.insertAdjacentHTML("beforeend", `
+        <li class="map-day">
+          <div class="day-badge">${d.day}</div>
+          <div class="day-content">
+            <div class="day-title">${d.title}</div>
+            <div class="day-stops">${stops}</div>
+          </div>
+        </li>`);
+    });
+
+    /* food btn */
+    const foodBtn = document.getElementById("food-btn");
+    foodBtn.setAttribute("aria-label", ui.foodLabel);
+    foodBtn.setAttribute("title",      ui.foodLabel);
+
+    document.getElementById("btn-zh").classList.toggle("active", LANG === 'zh');
+    document.getElementById("btn-en").classList.toggle("active", LANG === 'en');
+    document.getElementById("fs-s").textContent = LANG === 'zh' ? '小' : 'S';
+    document.getElementById("fs-l").textContent = LANG === 'zh' ? '大' : 'L';
+  }
+
+  function setLang(lang) {
+    LANG = lang;
+    document.body.classList.toggle('lang-en', lang === 'en');
+    if (lightbox.classList.contains("open")) {
+      const idx = Math.round(lbStrip.scrollLeft / lbStrip.offsetWidth);
+      buildSlides(_lbItems);
+      requestAnimationFrame(() => {
+        lbStrip.children[idx]?.scrollIntoView({ behavior: "instant", inline: "start" });
+      });
+    }
+    render();
+  }
+
+  document.getElementById("btn-zh").addEventListener("click", () => setLang('zh'));
+  document.getElementById("btn-en").addEventListener("click", () => setLang('en'));
+
+  /* ── font size ── */
+  const root = document.documentElement;
+  function applyFontScale(scale) {
+    root.style.setProperty('--font-scale', scale);
+  }
+  document.querySelectorAll('.font-size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.font-size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFontScale(btn.dataset.size);
+    });
+  });
+  // initial apply
+  applyFontScale('1.05');
+
+  document.getElementById("food-btn").addEventListener("click", () => openLightbox(FOOD_IMAGES, 0));
+
+  render();
+</script>
+</body>
+</html>

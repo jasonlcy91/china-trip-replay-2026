@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 · 家庭旅行</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=Ma+Shan+Zheng&family=Nunito:wght@500;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:        #1a1208;
+      --paper:      #faf7f2;
+      --warm:       #c8903a;
+      --warm-light: #f5e8ce;
+      --radius:     14px;
+      --font-serif: "Ma Shan Zheng", "Noto Serif SC", serif;
+      --font-sans:  "ZCOOL KuaiLe", "PingFang SC", "Hiragino Sans GB", sans-serif;
+      --font-serif-en: "Nunito", "Quicksand", "Varela Round", -apple-system, sans-serif;
+      --font-sans-en:  "Nunito Sans", "Nunito", "Quicksand", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      --font-scale: 1;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      font-size: calc(100% * var(--font-scale));
+    }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.lang-en {
+      font-family: var(--font-sans-en);
+    }
+    body.lang-en .hero-title,
+    body.lang-en .hero-subtitle,
+    body.lang-en .hero-dates,
+    body.lang-en .section-title,
+    body.lang-en .city-card-title,
+    body.lang-en .schedule-day-num,
+    body.lang-en .notes-city-name {
+      font-family: var(--font-serif-en);
+    }
+
+    /* ══════════════════════════════════════
+       TOP BARS
+    ══════════════════════════════════════ */
+    .lang-bar {
+      position: fixed;
+      top: 0.5rem; left: 0.5rem;
+      z-index: 300;
+      display: flex; align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .lang-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.04em; color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem; border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent; white-space: nowrap;
+    }
+    .lang-btn.active { background: var(--warm); color: #fff; }
+
+    .font-size-bar {
+      position: fixed;
+      top: 3rem; left: 0.5rem;
+      z-index: 300;
+      display: flex; align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .font-size-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.04em; color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem; border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent; white-space: nowrap;
+    }
+    .font-size-btn.active { background: var(--warm); color: #fff; }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    .hero {
+      background:
+        linear-gradient(180deg, rgba(8,14,8,0.5) 0%, rgba(6,12,8,0.35) 40%, rgba(4,8,4,0.78) 100%),
+        url("杭州/background/杭州西湖.jpg") center/cover no-repeat;
+      padding: 4rem 1.5rem 2.5rem;
+      text-align: center;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 10vw, 3.2rem);
+      font-weight: 900; color: #fff;
+      letter-spacing: 0.1em; line-height: 1.15;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.6), 0 0 48px rgba(0,0,0,0.3);
+    }
+    .hero-subtitle {
+      margin-top: 0.6rem;
+      font-family: var(--font-serif);
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      color: #d4e8c2; letter-spacing: 0.2em;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+    }
+    .hero-dates {
+      margin-top: 1rem;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.08em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    /* ══════════════════════════════════════
+       CITIES
+    ══════════════════════════════════════ */
+    .cities-section {
+      padding: 1.8rem 1.25rem 1rem;
+      max-width: 600px; margin: 0 auto;
+    }
+    .section-title {
+      text-align: center;
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      font-weight: 700; line-height: 1.3;
+      margin-bottom: 1.3rem;
+    }
+    .city-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.7rem;
+    }
+    .city-card {
+      position: relative;
+      border-radius: 12px; overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+      text-decoration: none; display: block;
+    }
+    .city-card:active { transform: scale(0.96); }
+    .city-card:hover { box-shadow: 0 8px 28px rgba(200,144,58,0.2); transform: translateY(-2px); }
+    .city-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .city-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.55) 100%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0.9rem 0.7rem 0.8rem;
+    }
+    .city-card-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.2rem, 5vw, 1.6rem);
+      font-weight: 700; color: #fff;
+      letter-spacing: 0.08em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .city-card-sub {
+      font-size: 0.78rem; color: rgba(255,255,255,0.78);
+      margin-top: 0.2rem; letter-spacing: 0.04em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+    .city-card-dates {
+      margin-top: 0.25rem;
+      font-size: 0.7rem; color: var(--warm-light);
+      letter-spacing: 0.06em; font-weight: 600;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    /* ══════════════════════════════════════
+       SCHEDULE
+    ══════════════════════════════════════ */
+    .schedule-section {
+      padding: 1.5rem 1.25rem 1rem;
+      max-width: 600px; margin: 0 auto;
+    }
+    .schedule-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .schedule-item {
+      display: flex; align-items: center;
+      gap: 0.9rem; padding: 0.65rem 1rem;
+      border-bottom: 1px solid #f0ebe0;
+    }
+    .schedule-item:last-child { border-bottom: none; }
+    .schedule-day-num {
+      flex-shrink: 0;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--warm);
+      color: #fff;
+      font-family: var(--font-serif);
+      font-weight: 700; font-size: 0.82rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .schedule-day-num.transit {
+      background: #8b9a6b;
+    }
+    .schedule-info { flex: 1; min-width: 0; }
+    .schedule-route {
+      font-weight: 700; font-size: 0.95rem;
+      margin-bottom: 0.1rem;
+    }
+    .schedule-note {
+      font-size: 0.82rem; color: #8a7a60;
+    }
+    .schedule-icon {
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
+       TRIP NOTES
+    ══════════════════════════════════════ */
+    .notes-section {
+      padding: 1rem 1.25rem 3rem;
+      max-width: 600px; margin: 0 auto;
+    }
+    .notes-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .notes-city {
+      border-bottom: 1px solid #f0ebe0;
+      padding: 1rem 1rem 0.9rem;
+    }
+    .notes-city:last-child { border-bottom: none; }
+    .notes-city-name {
+      font-family: var(--font-serif);
+      font-size: 1.15rem; font-weight: 700;
+      margin-bottom: 0.45rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .notes-city-name .emoji { font-size: 1.2rem; }
+    .notes-hotel {
+      font-size: 0.82rem; color: #8a7a60;
+      margin-bottom: 0.5rem; line-height: 1.5;
+    }
+    .notes-hotel strong { color: var(--ink); }
+    .notes-list {
+      display: flex; flex-wrap: wrap; gap: 0.3rem 0.4rem;
+    }
+    .notes-tag {
+      display: inline-block;
+      font-size: 0.76rem; padding: 0.2rem 0.55rem;
+      border-radius: 14px;
+      background: var(--warm-light);
+      color: #7a6230;
+    }
+    .notes-tag.food {
+      background: #ffe8d6;
+      color: #c06230;
+    }
+    .notes-tag.highlight {
+      background: #e8f0e8;
+      color: #4a6a3a;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .footer {
+      text-align: center;
+      padding: 0 1.25rem 2rem;
+      font-size: 0.82rem; color: #b8a88a;
+      max-width: 600px; margin: 0 auto;
+    }
+
+    /* ══════════════════════════════════════
+       PLAN NOTE MODAL
+    ══════════════════════════════════════ */
+    .plan-note-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin: 0.5rem 0 0.9rem;
+      padding: 0.5rem 1rem;
+      background: var(--warm);
+      color: #fff;
+      border: none; border-radius: 22px;
+      font-family: var(--font-sans);
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(200,144,58,0.3);
+      transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .plan-note-btn:hover {
+      background: #b07a2a;
+      box-shadow: 0 4px 18px rgba(200,144,58,0.4);
+      transform: translateY(-1px);
+    }
+    .plan-note-btn:active { transform: scale(0.96); }
+    .plan-note-btn .btn-icon { font-size: 1rem; }
+
+    .modal-overlay {
+      position: fixed; inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.show {
+      opacity: 1; pointer-events: auto;
+    }
+    .modal-card {
+      background: #fffef9;
+      border-radius: 16px;
+      max-width: 560px; width: 100%; max-height: 80vh;
+      display: flex; flex-direction: column;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+      transform: translateY(20px);
+      transition: transform 0.25s ease;
+    }
+    .modal-overlay.show .modal-card {
+      transform: translateY(0);
+    }
+    .modal-header {
+      display: flex; align-items: center;
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid #f0ebe0;
+    }
+    .modal-header h3 {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .modal-footer {
+      display: flex; justify-content: flex-end;
+      padding: 0.8rem 1.2rem 1rem;
+      border-top: 1px solid #f0ebe0;
+    }
+    .modal-close {
+      background: var(--warm); border: none;
+      font-family: var(--font-sans);
+      font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; color: #fff;
+      padding: 0.4rem 1rem; border-radius: 18px;
+      letter-spacing: 0.04em;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .modal-close:hover { background: #b07a2a; transform: scale(1.04); }
+    .modal-close:active { transform: scale(0.96); }
+    .modal-body {
+      flex: 1; overflow-y: auto;
+      padding: 1rem 1.2rem 1.5rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 0.85rem; line-height: 1.7; color: #3a3020;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-bar">
+  <button class="lang-btn active" id="btn-zh">中</button>
+  <button class="lang-btn" id="btn-en">E</button>
+</div>
+
+<!-- FONT SIZE TOGGLE -->
+<div class="font-size-bar">
+  <button class="font-size-btn active" id="fs-s" data-size="1.05">小</button>
+  <button class="font-size-btn" id="fs-l" data-size="1.2">大</button>
+</div>
+
+<!-- CONFIG -->
+<script>
+  let LANG = 'zh';
+
+  const I18N = {
+    zh: {
+      pageTitle: "2026 · 家庭旅行",
+      heroTitle: "2026 家庭旅行",
+      heroSub: "绍兴 · 千岛湖 · 杭州 · 苏州",
+      heroDates: "6月6日 — 6月14日 · 9天8晚",
+      citiesTitle: "目的地",
+      scheduleTitle: "行程总览",
+      notesTitle: "旅行笔记",
+      footer: "🎋 一路江南 · 岁岁安康 🎋",
+    },
+    en: {
+      pageTitle: "2026 · Family Trip to China",
+      heroTitle: "2026 Family Trip",
+      heroSub: "Shaoxing · Qiandao Lake · Hangzhou · Suzhou",
+      heroDates: "June 6 – June 14 · 9 Days",
+      citiesTitle: "Destinations",
+      scheduleTitle: "Itinerary",
+      notesTitle: "Trip Notes",
+      footer: "🎋 A Jiangnan Journey · Safe Travels 🎋",
+    },
+  };
+
+  const CITIES = [
+    {
+      href: "绍兴/index.html",
+      img: "绍兴/signature_images/shaoxing_jiangnan_vibe1.jpg",
+      zh: { title: "绍兴", sub: "6.6 — 6.7", tag: "书法之乡 · 黄酒之都" },
+      en: { title: "Shaoxing", sub: "Jun 6 – 7", tag: "Calligraphy · Huangjiu" },
+    },
+    {
+      href: "千岛湖/index.html",
+      img: "千岛湖/signature_images/千岛湖.jpg",
+      zh: { title: "千岛湖", sub: "6.7 — 6.9", tag: "天下第一秀水" },
+      en: { title: "Qiandao Lake", sub: "Jun 7 – 9", tag: "Thousand Isles" },
+    },
+    {
+      href: "杭州/index.html",
+      img: "杭州/signature_images/杭州西湖.jpg",
+      zh: { title: "杭州", sub: "6.9 — 6.11", tag: "人间天堂 · 西湖" },
+      en: { title: "Hangzhou", sub: "Jun 9 – 11", tag: "Paradise · West Lake" },
+    },
+    {
+      href: "苏州/index.html",
+      img: "苏州/signature_images/modern_ancient.jpg",
+      zh: { title: "苏州", sub: "6.11 — 6.14", tag: "园林之城 · 东方威尼斯" },
+      en: { title: "Suzhou", sub: "Jun 11 – 14", tag: "Gardens · Venice of East" },
+    },
+  ];
+
+  const SCHEDULE = [
+    { day: "6.6",  icon: "✈️", zh: { route: "上海 · 接机 → 绍兴", note: "绍兴自由行" },           en: { route: "Shanghai pickup → Shaoxing", note: "Shaoxing free day" }, transit: true },
+    { day: "6.7",  icon: "🚗", zh: { route: "绍兴 → 千岛湖",       note: "接送 + 包车 💰1500" },      en: { route: "Shaoxing → Qiandao Lake", note: "Transfer + charter ¥1500" } },
+    { day: "6.8",  icon: "🚗", zh: { route: "千岛湖",              note: "千岛湖包车 💰1100" },        en: { route: "Qiandao Lake", note: "Charter ¥1100" } },
+    { day: "6.9",  icon: "🚗", zh: { route: "千岛湖 → 杭州",       note: "接送 + 包车" },               en: { route: "Qiandao Lake → Hangzhou", note: "Transfer + charter" } },
+    { day: "6.10", icon: "🚶", zh: { route: "杭州",                note: "杭州自由行" },                 en: { route: "Hangzhou", note: "Free day" } },
+    { day: "6.11", icon: "🚗", zh: { route: "杭州 → 苏州",         note: "接送 + 包车" },               en: { route: "Hangzhou → Suzhou", note: "Transfer + charter" } },
+    { day: "6.12", icon: "🚶", zh: { route: "苏州",                note: "苏州自由行" },                 en: { route: "Suzhou", note: "Free day" } },
+    { day: "6.13", icon: "🚶", zh: { route: "苏州",                note: "苏州自由行" },                 en: { route: "Suzhou", note: "Free day" } },
+    { day: "6.14", icon: "✈️", zh: { route: "苏州 → 上海 · 送机", note: "再见江南 👋" },               en: { route: "Suzhou → Shanghai drop-off", note: "Farewell 👋" }, transit: true },
+  ];
+
+  const NOTES = [
+    {
+      emoji: "🏘️",
+      zh: {
+        name: "绍兴",
+        hotel: "<strong>住：</strong>鲁迅故里大悦城亚朵酒店（越城区塔山街道解放北路469号）",
+        list: ["王阿姨面饽饽", "孔乙己酒家", "仓桥直街", "阳明故里", "书圣故里", "兰亭记", "周恩来祖居", "青藤书屋", "鲁迅故里", "沈氏园"],
+        foods: ["王阿姨面饽饽", "孔乙己酒家", "兰亭记·绍兴菜", "卢记香酥鸡烧饼"],
+      },
+      en: {
+        name: "Shaoxing",
+        hotel: "<strong>Stay:</strong> Atour Hotel near Lu Xun's Hometown (469 Jiefang North Rd, Tashan St)",
+        list: ["Lu Xun's Hometown", "Shen Garden", "Orchid Pavilion", "Cangqiao Street", "Keyan", "Ten-Li Lotus"],
+        foods: ["Ayi Noodles", "Kong Yiji Tavern", "Lanting Ji", "Luji Chicken Cake"],
+      },
+    },
+    {
+      emoji: "🏝️",
+      zh: {
+        name: "千岛湖",
+        hotel: "<strong>住：</strong>绿城蓝湾度假酒店",
+        list: ["天屿山观景台", "千岛湖啤酒小镇", "骑龙巷", "桂花岛", "千岛湖石林", "黄山尖", "梅峰岛", "月光岛"],
+        foods: [],
+      },
+      en: {
+        name: "Qiandao Lake",
+        hotel: "<strong>Stay:</strong> Green City Blue Bay Resort",
+        list: ["Tianyu Mountain", "Beer Town", "Qilong Alley", "Osmanthus Island", "Stone Forest", "Huangshanjian", "Meifeng Island", "Moonlight Island"],
+        foods: [],
+      },
+    },
+    {
+      emoji: "🏯",
+      zh: {
+        name: "杭州",
+        hotel: "<strong>住：</strong>仁和饭店（西湖店）",
+        list: ["花港观鱼", "太子湾公园", "龙井村", "梅家坞", "灵隐寺", "五柳巷", "大马弄", "鼓楼", "胡雪岩故居", "南宋御街", "河坊街", "良渚古城遗址⭐"],
+        foods: ["佳藕天成", "李百蟹"],
+      },
+      en: {
+        name: "Hangzhou",
+        hotel: "<strong>Stay:</strong> Renhe Hotel (West Lake)",
+        list: ["Viewing Fish at Flower Pond", "Taiziwan Park", "Longjing Village", "Meijiawu", "Lingyin Temple", "Wuliu Lane", "Dama Alley", "Drum Tower", "Hu Xueyan Residence", "Imperial Street", "Hefang Street", "Liangzhu Ruins⭐"],
+        foods: ["Jia'ou Tiancheng", "Li Baixie Crab Noodles"],
+      },
+    },
+    {
+      emoji: "🏯",
+      zh: {
+        name: "苏州",
+        hotel: "<strong>住：</strong>雅戈尔富宫大酒店（观前街平江路店）",
+        list: ["拙政园", "忠王府", "苏州博物馆", "苏州园林博物馆", "狮子林", "平江路", "金鸡湖", "东方之门", "李公堤", "七里山塘", "阊门", "付小锅·苏式火锅", "盘门", "姑苏家宴", "哑巴生煎", "同得兴"],
+        foods: ["付小锅·苏式火锅", "姑苏家宴", "哑巴生煎", "同得兴"],
+      },
+      en: {
+        name: "Suzhou",
+        hotel: "<strong>Stay:</strong> Youngor Palace Hotel (Guanqian St / Pingjiang Rd)",
+        list: ["Humble Admin's Garden", "Zhongwang Mansion", "Suzhou Museum", "Suzhou Garden Museum", "Lion Grove", "Pingjiang Rd", "Jinji Lake", "Gate of the Orient", "Ligong Causeway", "Shantang St", "Changmen Gate", "Fu Xiaoguo Hotpot", "Panmen Gate"],
+        foods: ["Fu Xiaoguo Hotpot", "Gusu Family Feast", "Yaba Shengjian", "Tongdexing Noodles"],
+      },
+    },
+  ];
+</script>
+
+<!-- HERO -->
+<header class="hero">
+  <h1 class="hero-title" id="hero-title"></h1>
+  <p class="hero-subtitle" id="hero-subtitle"></p>
+  <p class="hero-dates" id="hero-dates"></p>
+</header>
+
+<!-- CITIES -->
+<section class="cities-section">
+  <h2 class="section-title" id="cities-title"></h2>
+  <div class="city-grid" id="city-grid"></div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="schedule-section">
+  <h2 class="section-title" id="schedule-title"></h2>
+  <div class="schedule-card" id="schedule-card"></div>
+</section>
+
+<!-- NOTES -->
+<section class="notes-section">
+  <h2 class="section-title" id="notes-title"></h2>
+  <button class="plan-note-btn" id="plan-note-btn" onclick="openPlanNote()">
+    <span class="btn-icon">📋</span> <span id="plan-note-btn-label">查看详细计划笔记</span>
+  </button>
+  <div class="notes-card" id="notes-card"></div>
+</section>
+
+<footer class="footer" id="footer"></footer>
+
+<!-- PLAN NOTE MODAL -->
+<div class="modal-overlay" id="plan-note-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3><span>📋</span> 详细计划笔记</h3>
+    </div>
+    <div class="modal-body" id="plan-note-modal-body"></div>
+    <div class="modal-footer">
+      <button class="modal-close" onclick="closePlanNote()">✕ 关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── render ── */
+  function render() {
+    const t = I18N[LANG];
+
+    document.title = t.pageTitle;
+    document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
+    document.getElementById("hero-title").textContent = t.heroTitle;
+    document.getElementById("hero-subtitle").textContent = t.heroSub;
+    document.getElementById("hero-dates").textContent = t.heroDates;
+    document.getElementById("cities-title").textContent = t.citiesTitle;
+    document.getElementById("schedule-title").textContent = t.scheduleTitle;
+    document.getElementById("notes-title").textContent = t.notesTitle;
+    document.getElementById("footer").textContent = t.footer;
+
+    /* cities */
+    const cityGrid = document.getElementById("city-grid");
+    cityGrid.innerHTML = "";
+    CITIES.forEach(c => {
+      const a = document.createElement("a");
+      a.className = "city-card";
+      a.href = c.href;
+      a.innerHTML = `
+        <img src="${c.img}" alt="${c[LANG].title}" loading="lazy" />
+        <div class="city-card-overlay">
+          <div class="city-card-title">${c[LANG].title}</div>
+          <div class="city-card-sub">${c[LANG].tag}</div>
+          <div class="city-card-dates">${c[LANG].sub}</div>
+        </div>`;
+      cityGrid.appendChild(a);
+    });
+
+    /* schedule */
+    const scheduleCard = document.getElementById("schedule-card");
+    scheduleCard.innerHTML = "";
+    SCHEDULE.forEach(s => {
+      const d = s[LANG];
+      const cls = s.transit ? "schedule-day-num transit" : "schedule-day-num";
+      scheduleCard.insertAdjacentHTML("beforeend", `
+        <div class="schedule-item">
+          <div class="${cls}">${s.day}</div>
+          <div class="schedule-info">
+            <div class="schedule-route">${s.icon} ${d.route}</div>
+            <div class="schedule-note">${d.note}</div>
+          </div>
+        </div>`);
+    });
+
+    /* notes */
+    const notesCard = document.getElementById("notes-card");
+    notesCard.innerHTML = "";
+    NOTES.forEach(n => {
+      const d = n[LANG];
+      const tags = d.list.map(item => {
+        const isFood = d.foods && d.foods.includes(item);
+        return `<span class="notes-tag${isFood ? ' food' : ''}">${item}</span>`;
+      }).join("");
+      notesCard.insertAdjacentHTML("beforeend", `
+        <div class="notes-city">
+          <div class="notes-city-name"><span class="emoji">${n.emoji}</span>${d.name}</div>
+          <div class="notes-hotel">${d.hotel}</div>
+          <div class="notes-list">${tags}</div>
+        </div>`);
+    });
+
+    document.getElementById("btn-zh").classList.toggle("active", LANG === 'zh');
+    document.getElementById("btn-en").classList.toggle("active", LANG === 'en');
+    document.getElementById("fs-s").textContent = LANG === 'zh' ? '小' : 'S';
+    document.getElementById("fs-l").textContent = LANG === 'zh' ? '大' : 'L';
+  }
+
+  function setLang(lang) {
+    LANG = lang;
+    document.body.classList.toggle('lang-en', lang === 'en');
+    render();
+  }
+
+  document.getElementById("btn-zh").addEventListener("click", () => setLang('zh'));
+  document.getElementById("btn-en").addEventListener("click", () => setLang('en'));
+
+  /* ── font size ── */
+  const root = document.documentElement;
+  function applyFontScale(scale) {
+    root.style.setProperty('--font-scale', scale);
+  }
+  document.querySelectorAll('.font-size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.font-size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFontScale(btn.dataset.size);
+    });
+  });
+  // initial apply
+  applyFontScale('1.05');
+
+
+  /* ── plan note modal ── */
+  const PLAN_NOTE_TXT = `## 绍兴
+
+**住：鲁迅故里大悦城亚朵酒店 (绍兴市越城区 塔山街道解放北路469号（紧邻鲁迅故里）)**
+ 王阿姨面饽饽（学士街横关店）
+ 孔乙己酒家
+ 仓桥直街历史街区
+ 阳明故里
+ 书圣故里
+ 兰亭记·绍兴菜（书圣故里店）
+ 周恩来祖居
+ 青藤书屋
+ 卢记小肉香酥鸡烧饼（鲁迅故里店）
+ 鲁迅故里-绍兴古城
+ 沈氏园
+
+## 千岛湖
+
+**住：绿城蓝湾度假酒店**
+天屿山观景台
+千岛湖啤酒小镇
+骑龙巷
+桂花岛
+千岛湖石林
+黄山尖
+梅峰岛
+留点时间坐船去 月光岛
+
+## 杭州
+
+**住： 仁和饭店(西湖店)**
+可能可以半天自行逛附近
+花港观鱼 可能望望苏提就好了不走
+太子湾公园
+龙井村、梅家坞
+灵隐寺（飞来峰）
+五柳巷历史街区
+大马弄
+鼓楼
+胡雪岩故居
+南宋御街 河坊街
+🍽️ 吃：佳藕天成生活馆(中山中路店)， 李百蟹
+🌟 如果有时间很想去：良渚古城遗址 里饭店一小时
+
+## 苏州
+
+**住: 雅戈尔富宫大酒店（观前街平江路店）**
+拙政地区
+	1.	拙政园
+	2.	太平天国忠王府
+	3.	苏州园林博物馆
+	4.	苏州博物馆（本馆）
+	5. 狮子林
+	6. 平江路
+金鸡湖地区
+	1.	东方之门
+	2.	金鸡湖景区
+	3	李公堤
+七里山塘地区
+	1.	七里山塘景区
+	2.	阊门遗址
+	3.	🍜付小锅·苏式炭烤铜炉火锅
+盘门景区
+
+🍜 姑苏家宴
+🍜 哑巴生煎
+🍜 同得兴 枫镇大肉面、三虾面、爆鱼面
+`;
+
+  function openPlanNote() {
+    document.getElementById("plan-note-modal-body").textContent = PLAN_NOTE_TXT;
+    document.getElementById("plan-note-modal").classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closePlanNote() {
+    document.getElementById("plan-note-modal").classList.remove("show");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("plan-note-modal").addEventListener("click", function(e) {
+    if (e.target === this) closePlanNote();
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closePlanNote();
+  });
+
+  /* update plan-note button label on lang switch */
+  const origSetLang = setLang;
+  setLang = function(lang) {
+    origSetLang(lang);
+    const lbl = document.getElementById("plan-note-btn-label");
+    if (lbl) lbl.textContent = lang === 'zh' ? '查看详细计划笔记' : 'View Detailed Plan Notes';
+  };
+
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>千岛湖 · 家庭旅行</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=Ma+Shan+Zheng&family=Nunito:wght@500;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:        #1a1208;
+      --paper:      #faf7f2;
+      --warm:       #c8903a;
+      --warm-light: #f5e8ce;
+      --radius:     14px;
+      --font-serif: "Ma Shan Zheng", "Noto Serif SC", serif;
+      --font-sans:  "ZCOOL KuaiLe", "PingFang SC", "Hiragino Sans GB", sans-serif;
+      --font-serif-en: "Nunito", "Quicksand", "Varela Round", -apple-system, sans-serif;
+      --font-sans-en:  "Nunito Sans", "Nunito", "Quicksand", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      --font-scale: 1;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      font-size: calc(100% * var(--font-scale));
+    }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.lang-en {
+      font-family: var(--font-sans-en);
+    }
+    body.lang-en .hero-title,
+    body.lang-en .hero-subtitle,
+    body.lang-en .hero-weather,
+    body.lang-en .section-title,
+    body.lang-en .lb-slide-title,
+    body.lang-en .note-heading,
+    body.lang-en .note-btn,
+    body.lang-en .note-textarea,
+    body.lang-en .day-badge {
+      font-family: var(--font-serif-en);
+    }
+
+    /* ══════════════════════════════════════
+       LANGUAGE TOGGLE
+    ══════════════════════════════════════ */
+    .lang-bar {
+      position: fixed;
+      top: 0.5rem; left: 0.5rem;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem;
+      border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .lang-btn.active {
+      background: var(--warm);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       FONT SIZE BAR
+    ══════════════════════════════════════ */
+    .font-size-bar {
+      position: fixed;
+      top: 3rem; left: 0.5rem;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .font-size-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem;
+      border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .font-size-btn.active {
+      background: var(--warm);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       1. INTRO
+    ══════════════════════════════════════ */
+    .intro-section {
+      background:
+        linear-gradient(
+          180deg,
+          rgba(10,18,12,0.55) 0%,
+          rgba(8,16,10,0.38) 40%,
+          rgba(4,10,6,0.72) 100%
+        ),
+        url("background/天下为公.jpg") center/cover no-repeat;
+      padding: 1.8rem 0 0;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .intro-text { padding: 0 1.5rem 0.9rem; }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 10vw, 2.8rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.3);
+    }
+    .hero-subtitle {
+      margin-top: 0.5rem;
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 3.8vw, 1.3rem);
+      color: #d4e8c2;
+      letter-spacing: 0.18em;
+      opacity: 0.9;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    }
+    .hero-weather {
+      margin-top: 0.4rem;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.68);
+      letter-spacing: 0.06em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    /* ── shared horizontal track ── */
+    .h-track {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.4rem 0.7rem 1.4rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .h-track::-webkit-scrollbar { display: none; }
+
+    .h-card {
+      flex: 0 0 88vw;
+      max-width: 100%;
+      scroll-snap-align: center;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.32);
+      position: relative;
+      aspect-ratio: 2/3;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.18s ease;
+    }
+    .h-card:active { transform: scale(0.96); }
+    .h-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      -webkit-touch-callout: none;
+    }
+    .h-card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.55rem 0.7rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      color: #fff;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════
+       Section wrapper
+    ══════════════════════════════════════ */
+    section { padding: 1.25rem 1.25rem; }
+    .section-header {
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    /* ══════════════════════════════════════
+       2. GALLERY
+    ══════════════════════════════════════ */
+    .gallery-section { background: var(--paper); padding: 1.8rem 0 0; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    .gallery-tile {
+      position: relative;
+      border-radius: 9px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .gallery-tile:active { transform: scale(0.95); }
+    .gallery-tile img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+      -webkit-touch-callout: none;
+    }
+    .gallery-tile:hover img { transform: scale(1.07); }
+    .tile-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.45rem 0.35rem 0.4rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ══════════════════════════════════════
+       LIGHTBOX
+    ══════════════════════════════════════ */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: #0d0b08;
+    }
+    .lightbox.open { display: block; animation: lbFadeIn 0.18s ease; }
+    @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+    .lb-close {
+      position: absolute;
+      bottom: 1.0rem; right: 1.0rem;
+      z-index: 10;
+      background: rgba(255,255,255,0.13);
+      border: none;
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s;
+    }
+    .lb-close:active { background: rgba(255,255,255,0.25); }
+
+    .lb-strip {
+      display: flex;
+      width: 100%; height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .lb-strip::-webkit-scrollbar { display: none; }
+
+    .lb-slide {
+      flex: 0 0 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .lb-slide-img {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d0b08;
+      position: relative;
+    }
+    .lb-slide-img img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+      -webkit-touch-callout: none;
+    }
+    .lb-slide-img video {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+      outline: none;
+    }
+
+    .lb-slide-info {
+      flex-shrink: 0;
+      padding: 0.75rem 1.3rem 1.8rem;
+      background: #100d07;
+      color: #fff;
+    }
+
+    .lb-dots {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin-bottom: 0.55rem;
+    }
+    .lb-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+    .lb-dot.active { background: var(--warm); transform: scale(1.35); }
+
+    .lb-slide-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .lb-slide-desc {
+      font-size: 0.92rem;
+      line-height: 1.72;
+      color: rgba(255,255,255,0.55);
+    }
+    .lb-slide-tag {
+      display: inline-block;
+      margin-top: 0.55rem;
+      padding: 0.18rem 0.55rem;
+      background: rgba(200,144,58,0.18);
+      color: var(--warm);
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* ══════════════════════════════════════
+       3. MAP & GUIDE
+    ══════════════════════════════════════ */
+    .map-section { background: #fff; padding: 1.8rem 0 0; }
+
+    .map-list { list-style: none; margin-top: 1rem; }
+    .map-day {
+      display: flex;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #ede8df;
+    }
+    .map-day:last-child { border-bottom: none; }
+    .day-badge {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--warm);
+      color: #fff;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .day-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+    .day-stops {
+      font-size: 0.9rem;
+      color: #6b5b45;
+      line-height: 1.6;
+    }
+    .day-stops span { display: inline-block; margin-right: 0.5rem; }
+    .day-stops span::before { content: "· "; color: var(--warm); }
+
+    /* ══════════════════════════════════════
+       FOOD STICKY BTN
+    ══════════════════════════════════════ */
+    .home-btn {
+      position: fixed;
+      bottom: 5.5rem; right: 1.5rem;
+      z-index: 400;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+      transition: transform 0.18s, box-shadow 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .home-btn:active { transform: scale(0.88); }
+    .home-btn:hover  { box-shadow: 0 6px 28px rgba(200,144,58,0.32); transform: scale(1.08); }
+    body:has(.lightbox.open) .home-btn { display: none; }
+
+    .food-btn {
+      position: fixed;
+      bottom: 1.5rem; right: 1.25rem;
+      z-index: 100;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2.5px solid var(--warm-light);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .food-btn:active { transform: scale(0.9); }
+    .food-btn:hover  { box-shadow: 0 6px 28px rgba(200,144,58,0.32); transform: scale(1.06); }
+
+    .max-w { padding: 0 0.7rem; }
+
+    /* ══════════════════════════════════════
+       NOTE SYSTEM
+    ══════════════════════════════════════ */
+    .note-dot {
+      position: absolute;
+      top: 0.4rem; right: 0.4rem;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--warm);
+      color: #fff;
+      font-size: 0.62rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.38);
+      pointer-events: none;
+      z-index: 5;
+      line-height: 1;
+    }
+
+    .lp-ripple {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 2.5px solid var(--warm);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 6;
+      transition: opacity 0.1s;
+    }
+    .lp-ripple.active { opacity: 1; animation: lpPulse 0.5s ease forwards; }
+    @keyframes lpPulse {
+      0%   { opacity: 0.7; transform: scale(1); }
+      100% { opacity: 0;   transform: scale(1.06); }
+    }
+
+    .note-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0,0,0,0.46);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .note-modal.open { display: flex; animation: lbFadeIn 0.2s ease; }
+
+    .note-inner {
+      background: var(--paper);
+      border-radius: var(--radius) var(--radius) 0 0;
+      width: 100%; max-width: 540px;
+      box-shadow: 0 -4px 32px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+    .note-preview {
+      width: 100%; height: 130px;
+      object-fit: cover; display: block;
+    }
+    .note-body { padding: 0.85rem 1rem 2rem; }
+    .note-heading {
+      font-family: var(--font-serif);
+      font-size: 1rem; font-weight: 700;
+      margin-bottom: 0.5rem; color: var(--ink);
+    }
+    .note-textarea {
+      width: 100%; min-height: 82px;
+      border: 1.5px solid #e0d8cc; border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+      font-family: var(--font-sans); font-size: 0.95rem;
+      color: var(--ink); background: #fff;
+      resize: vertical; outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    .note-textarea:focus { border-color: var(--warm); }
+    .note-actions {
+      display: flex; gap: 0.5rem;
+      margin-top: 0.7rem; justify-content: flex-end;
+    }
+    .note-btn {
+      border: none; border-radius: 20px;
+      padding: 0.38rem 1rem;
+      font-family: var(--font-sans); font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s; user-select: none; -webkit-user-select: none;
+    }
+    .note-btn:active { opacity: 0.7; }
+    .note-btn-cancel { background: #ede8df; color: var(--ink); }
+    .note-btn-delete { background: #ffe0dc; color: #c0392b; }
+    .note-btn-save   { background: var(--warm); color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-bar">
+  <button class="lang-btn active" id="btn-zh">中</button>
+  <button class="lang-btn" id="btn-en">E</button>
+</div>
+
+<!-- FONT SIZE TOGGLE -->
+<div class="font-size-bar">
+  <button class="font-size-btn active" id="fs-s" data-size="1.05">小</button>
+  <button class="font-size-btn" id="fs-l" data-size="1.2">大</button>
+</div>
+
+<!-- CONFIG -->
+<script>
+  let LANG = 'zh';
+
+  const SITE = {
+    zh: { city: "千岛湖", subtitle: "天下第一秀水 · 千岛碧水画中游",                   pageTitle: "千岛湖 · 家庭旅行"       },
+    en: { city: "Qiandao Lake", subtitle: "Thousand Isles · A Journey Through Emerald Waters", pageTitle: "Qiandao Lake · Family Trip" },
+  };
+
+  const WEATHER = {
+    zh: "☀️  29° · 晴 · 宜出行",
+    en: "☀️  29°C · Sunny · Perfect Day Out",
+  };
+
+  const SIGNATURE_IMAGES = [
+    { img: "signature_images/千岛湖.jpg", zh: "千岛湖全景", en: "Qiandao Lake Panorama" },
+  ];
+
+  const GALLERY = [
+    {
+      img: "gallery_tiles/黄山尖 天下为公.jpg",
+      zh: { title: "黄山尖 · 天下为公", desc: "千岛湖最经典的观景台——乘缆车登顶，俯瞰大小岛屿天然排列成'天下为公'四个大字，鬼斧神工令人叹绝。这是千岛湖的标志性画面，也是每一位游客必到之处。", tag: "必去 · 观景" },
+      en: { title: "Huangshanjian · 'Tian Xia Wei Gong'", desc: "Qiandao Lake's most iconic viewpoint — take the cable car to the summit and gaze down at islands naturally arranged to spell 'The World for All' (天下为公) in Chinese characters. This is the defining image of Qiandao Lake and a must for every visitor.", tag: "Must-See Viewpoint" },
+    },
+    {
+      img: "gallery_tiles/天屿山.jpg",
+      zh: { title: "天屿山", desc: "千岛湖绝佳的日落观赏地——山顶视野开阔，可将湖光山色尽收眼底。傍晚时分，夕阳洒在千座岛屿上，金黄与碧绿交织，是摄影爱好者的天堂。山上有天屿茶邂可以小憩品茶。", tag: "日落 · 摄影" },
+      en: { title: "Tianyu Mountain", desc: "Qiandao Lake's premier sunset spot — the summit opens to sweeping panoramas of isle-dotted waters. At dusk, golden light spills across a thousand islands, weaving emerald and amber — a photographer's paradise. At the top, Tianyu Tea Encounter offers a perfect tea break.", tag: "Sunset · Photography" },
+    },
+    {
+      img: "gallery_tiles/富文乡中心小学 - 青山翠谷间的城堡学园.jpg",
+      zh: { title: "富文乡中心小学", desc: "被誉为'中国最美乡村小学'——彩色城堡式的建筑群坐落在青山翠谷之间，宛如童话世界。这座由建筑师精心设计的学校，颠覆了人们对乡村小学的所有想象。", tag: "建筑 · 童话" },
+      en: { title: "Fuwen Countryside Elementary School", desc: "Dubbed 'China's most beautiful rural school' — a cluster of colourful castle-like buildings nestled among emerald hills, like a scene from a fairy tale. This architect-designed school defies every expectation of what a countryside primary school can be.", tag: "Architecture · Fairytale" },
+    },
+    {
+      img: "gallery_tiles/网红灯塔.png",
+      zh: { title: "网红灯塔", desc: "千岛湖畔的白色灯塔，孤独地矗立在碧水之间，是社交媒体上最火爆的打卡地。蓝天、碧水、白塔——最简单的配色构成最治愈的画面，随手一拍都是大片。", tag: "打卡 · 出片" },
+      en: { title: "Instagram-Famous Lighthouse", desc: "A solitary white lighthouse standing amid the emerald waters of Qiandao Lake — a social media sensation. Blue sky, green lake, white tower: the simplest palette creates the most healing scene. Every snapshot is a postcard.", tag: "Photo Spot" },
+    },
+    {
+      img: "gallery_tiles/金峰峡谷漂流.jpg",
+      zh: { title: "金峰峡谷漂流", desc: "千岛湖最刺激的夏日体验——穿行于峡谷激流之间，时而急流勇进、时而平湖泛舟，两岸青山如画，尖叫与欢笑回荡山谷。适合全家一起挑战的户外冒险。", tag: "户外 · 漂流" },
+      en: { title: "Jinfeng Canyon Rafting", desc: "Qiandao Lake's most exhilarating summer adventure — plunge through canyon rapids, then drift on calm stretches framed by green mountains. Screams and laughter echo through the gorge. A family-friendly outdoor challenge.", tag: "Outdoor · Rafting" },
+    },
+    {
+      img: "gallery_tiles/骑龙巷.jpg",
+      zh: { title: "骑龙巷", desc: "千岛湖最具烟火气的老街巷——青石板路蜿蜒而上，两旁是地道的小吃摊和手作小店。夜幕降临后灯笼亮起，烧烤飘香、人声鼎沸，是感受千岛湖市井生活的最佳去处。", tag: "老街 · 烟火" },
+      en: { title: "Qilong Alley", desc: "Qiandao Lake's most soulful old lane — cobblestone paths winding uphill, lined with authentic snack stalls and artisan shops. When lanterns glow at night, the aroma of barbecue fills the air and the street comes alive — the best place to soak up Qiandao Lake's local spirit.", tag: "Old Lane · Local Life" },
+    },
+  ];
+
+  const MAP_IMAGES = [
+    { img: "map_and_guide/路线图.jpg", zh: "千岛湖游玩路线图", en: "Qiandao Lake Route Map" },
+  ];
+
+  const MAP_GUIDE = [];
+
+  const FOOD_IMAGES = [
+    {
+      img: "food/浔味·山屿湖餐厅·天屿山区.jpg",
+      zh: { title: "浔味 · 山屿湖餐厅（天屿山）", desc: "坐落在天屿山区的湖景餐厅，窗外就是千岛湖的绝美山水画卷。以精品千岛湖菜为主打，鱼头汤配山景、日落拌晚餐——味觉与视觉的双重盛宴。", tag: "湖景餐厅" },
+      en: { title: "Xunwei · Shanyuhu Restaurant (Tianyu Mountain)", desc: "A lake-view restaurant perched in the Tianyu Mountain area, where the window frames a living landscape painting of Qiandao Lake. Specialising in refined local cuisine — fish head soup with a mountain view, sunset paired with dinner: a feast for both palate and eyes.", tag: "Lakeside Dining" },
+    },
+    {
+      img: "food/天屿茶邂·日落下午茶.jpg",
+      zh: { title: "天屿茶邂 · 日落下午茶", desc: "天屿山顶的网红茶室——捧一杯千岛湖本地茶，坐在露台上看太阳缓缓沉入千座岛屿之间。日落时分是整个千岛湖最美的时刻，而这里拥有最完美的观赏角度。", tag: "下午茶 · 日落" },
+      en: { title: "Tianyu Tea Encounter · Sunset Afternoon Tea", desc: "A viral mountaintop tea house on Tianyu Mountain — cradling a cup of local Qiandao tea on the terrace, watching the sun slowly sink into a thousand islands. Sunset is Qiandao Lake's most beautiful hour, and this spot owns the perfect viewing angle.", tag: "Tea · Sunset" },
+    },
+    {
+      img: "food/全乐鱼馆·淳鱼直供.jpg",
+      zh: { title: "全乐鱼馆 · 淳鱼直供", desc: "从千岛湖到餐桌的最短距离——全乐鱼馆坚持淳鱼直供，保证了每一道鱼鲜的原汁原味。招牌鱼头汤奶白浓醇，鱼肉入口即化，是本地人也常来排队的口碑老店。", tag: "鱼鲜 · 名店" },
+      en: { title: "Quanle Fish House", desc: "The shortest distance from Qiandao Lake to your table — Quanle sources fish directly from local fishermen, guaranteeing the purest taste in every dish. The signature fish head soup is milky-rich and deeply savoury, with meat that melts on the tongue. Even locals queue up here.", tag: "Fish · Famous Restaurant" },
+    },
+    {
+      img: "food/鱼情鱼馆.jpg",
+      zh: { title: "鱼情鱼馆", desc: "专注千岛湖鲜鱼料理的精致餐厅——从经典白汤鱼头到创新融合做法，将一条鱼的鲜美演绎到极致。环境雅致，适合家庭聚餐，是品味千岛湖鱼文化的绝佳选择。", tag: "鱼鲜 · 精致" },
+      en: { title: "Yu Qing Yu Guan", desc: "An elegant restaurant dedicated to Qiandao Lake fish — from classic white-broth fish head to creative fusion preparations, exploring every dimension of umami a fish can offer. Refined setting ideal for family dining, and a perfect way to experience Qiandao Lake's fish culture.", tag: "Fish · Refined" },
+    },
+    {
+      img: "food/桃鲤风味民间家宴 私房菜.jpg",
+      zh: { title: "桃鲤 · 民间私房菜", desc: "隐匿于湖光山色间的私房菜馆，以千岛湖本地食材烹调最地道的家常风味。没有花哨的摆盘，只有外婆手艺般的质朴与温暖——每一口都是家的味道。", tag: "私房菜 · 家常" },
+      en: { title: "Tao Li · Private Kitchen", desc: "A hidden private kitchen among the lake and hills, cooking the most authentic homestyle flavours with local Qiandao Lake ingredients. No fancy plating — just the honest, heartwarming taste of grandma's cooking. Every bite tastes like home.", tag: "Private Kitchen" },
+    },
+    {
+      img: "food/千岛湖初次来美食1.jpg",
+      zh: { title: "千岛湖美食攻略（一）", desc: "初次来千岛湖必吃清单第一弹——千岛湖有机鱼头汤是绝对的C位。这里的鱼在'天下第一秀水'中生长，肉质鲜嫩无腥，白汤浓郁鲜甜，是千岛湖最骄傲的味道名片。", tag: "必吃推荐" },
+      en: { title: "Qiandao Lake Food Guide (I)", desc: "Your first must-eat list for Qiandao Lake — the organic fish head soup takes centre stage. Raised in 'China's purest waters', the fish is tender and sweet without a hint of muddiness. The creamy white broth is Qiandao Lake's proudest flavour calling card.", tag: "Must-Try" },
+    },
+    {
+      img: "food/千岛湖初次来美食2.jpg",
+      zh: { title: "千岛湖美食攻略（二）", desc: "除了鱼头汤，千岛湖还有更多惊喜——农家土鸡煲、山笋烧肉、清炒野菜……每一道都是原汁原味的山水馈赠，吃的是食材本真，品的是田园诗意。", tag: "必吃推荐" },
+      en: { title: "Qiandao Lake Food Guide (II)", desc: "Beyond fish head soup, Qiandao Lake holds more surprises — free-range chicken claypot, mountain bamboo shoots with pork, stir-fried wild greens… every dish is a gift from these pristine hills and waters, celebrating ingredient truth and pastoral poetry.", tag: "Must-Try" },
+    },
+    {
+      img: "food/千岛湖初次来美食3.jpg",
+      zh: { title: "千岛湖美食攻略（三）", desc: "千岛湖的地道小吃同样不容错过——鱼肉小馄饨、玉米饼、米粿……街头巷尾藏着最淳朴的味道。用舌尖丈量这座湖滨小城，处处有惊喜。", tag: "必吃推荐" },
+      en: { title: "Qiandao Lake Food Guide (III)", desc: "Don't miss the local street snacks — fish wontons, corn cakes, rice dumplings… the most honest flavours hide in alleys and lanes. Measure this lakeside town with your tongue; surprises await around every corner.", tag: "Must-Try" },
+    }
+  ];
+
+  const UI_TEXT = {
+    zh: { gallery: "景点打卡", mapGuide: "地图 · 指南", foodLabel: "查看美食推荐",
+          noteTitle: "我的备注", notePlaceholder: "写下你的想法…",
+          noteSave: "保存", noteCancel: "取消", noteDelete: "删除" },
+    en: { gallery: "Sights",   mapGuide: "Map & Guide", foodLabel: "View Food Guide",
+          noteTitle: "My Note", notePlaceholder: "Write a note…",
+          noteSave: "Save",   noteCancel: "Cancel",  noteDelete: "Delete" },
+  };
+</script>
+
+<!-- 1. INTRO -->
+<section class="intro-section">
+  <div class="intro-text">
+    <h1 class="hero-title" id="hero-title"></h1>
+    <p class="hero-subtitle" id="hero-subtitle"></p>
+    <p class="hero-weather" id="hero-weather"></p>
+  </div>
+  <div class="h-track" id="sig-track"></div>
+</section>
+
+<!-- 2. GALLERY -->
+<section class="gallery-section">
+  <div class="max-w">
+    <div class="section-header">
+      <h2 class="section-title" id="gallery-title"></h2>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lb-close" aria-label="关闭">✕</button>
+  <div class="lb-strip" id="lb-strip"></div>
+</div>
+
+<!-- 3. MAP & GUIDE -->
+<section class="map-section">
+  <!-- <div class="max-w"> -->
+    <div class="section-header">
+      <h2 class="section-title" id="map-title"></h2>
+    </div>
+    <div class="h-track" id="map-track"></div>
+    <ul class="map-list" id="map-list"></ul>
+  <!-- </div> -->
+</section>
+
+<!-- HOME BTN -->
+<a href="../index.html" class="home-btn" id="home-btn" title="Home">🏠</a>
+
+<!-- FOOD BTN -->
+<button class="food-btn" id="food-btn">🍜</button>
+
+<!-- NOTE MODAL -->
+<div class="note-modal" id="note-modal" role="dialog" aria-modal="true">
+  <div class="note-inner">
+    <img class="note-preview" id="note-preview" src="" alt="" />
+    <div class="note-body">
+      <div class="note-heading" id="note-heading"></div>
+      <textarea class="note-textarea" id="note-textarea" rows="4"></textarea>
+      <div class="note-actions">
+        <button class="note-btn note-btn-delete" id="note-btn-delete"></button>
+        <button class="note-btn note-btn-cancel" id="note-btn-cancel"></button>
+        <button class="note-btn note-btn-save"   id="note-btn-save"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script>
+  /* ── note storage ── */
+  function noteKey(img) { return 'note:' + img; }
+  function getNote(img) { return sessionStorage.getItem(noteKey(img)) || ''; }
+  function hasNote(img) { return !!sessionStorage.getItem(noteKey(img)); }
+  function saveNote(img, text) {
+    if (text.trim()) sessionStorage.setItem(noteKey(img), text.trim());
+    else             sessionStorage.removeItem(noteKey(img));
+  }
+
+  function refreshNoteDots() {
+    document.querySelectorAll('[data-img] .note-dot').forEach(dot => {
+      const container = dot.closest('[data-img]');
+      dot.style.display = hasNote(container.dataset.img) ? 'flex' : 'none';
+    });
+  }
+
+  /* ── note modal ── */
+  let _noteImg = '';
+  const noteModal    = document.getElementById('note-modal');
+  const noteTextarea = document.getElementById('note-textarea');
+  const noteHeading  = document.getElementById('note-heading');
+  const notePreview  = document.getElementById('note-preview');
+  const noteBtnDel   = document.getElementById('note-btn-delete');
+  const noteBtnCancel= document.getElementById('note-btn-cancel');
+  const noteBtnSave  = document.getElementById('note-btn-save');
+
+  function openNoteModal(img, title) {
+    _noteImg = img;
+    notePreview.src = img;
+    notePreview.alt = title;
+    noteHeading.textContent = title || UI_TEXT[LANG].noteTitle;
+    noteTextarea.value = getNote(img);
+    noteTextarea.placeholder = UI_TEXT[LANG].notePlaceholder;
+    noteBtnDel.style.display = hasNote(img) ? 'inline-block' : 'none';
+    noteModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => noteTextarea.focus(), 60);
+  }
+
+  function closeNoteModal() {
+    noteModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  noteBtnSave.addEventListener('click', () => {
+    saveNote(_noteImg, noteTextarea.value);
+    refreshNoteDots();
+    closeNoteModal();
+  });
+  noteBtnDel.addEventListener('click', () => {
+    saveNote(_noteImg, '');
+    refreshNoteDots();
+    closeNoteModal();
+  });
+  noteBtnCancel.addEventListener('click', closeNoteModal);
+  noteModal.addEventListener('click', e => { if (e.target === noteModal) closeNoteModal(); });
+
+  /* ── long press ── */
+  const LP_MS = 500;
+
+  function addLongPress(el, getImg, getTitle) {
+    let timer = null, startX = 0, startY = 0, fired = false;
+    const ripple = el.querySelector('.lp-ripple');
+
+    function arm(x, y) {
+      startX = x; startY = y; fired = false;
+      timer = setTimeout(() => {
+        fired = true;
+        if (ripple) { ripple.classList.remove('active'); void ripple.offsetWidth; ripple.classList.add('active'); }
+        openNoteModal(getImg(), getTitle());
+      }, LP_MS);
+    }
+    function disarm() { clearTimeout(timer); timer = null; }
+    function move(x, y) {
+      if (Math.abs(x - startX) > 8 || Math.abs(y - startY) > 8) disarm();
+    }
+
+    el.addEventListener('touchstart', e => {
+      const t = e.touches[0]; arm(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener('touchmove', e => {
+      const t = e.touches[0]; move(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener('touchend',    disarm);
+    el.addEventListener('touchcancel', disarm);
+
+    el.addEventListener('mousedown', e => { if (e.button === 0) arm(e.clientX, e.clientY); });
+    el.addEventListener('mousemove', e => move(e.clientX, e.clientY));
+    el.addEventListener('mouseup',   disarm);
+
+    /* swallow the click that follows a long press */
+    el.addEventListener('click', e => {
+      if (fired) { e.stopImmediatePropagation(); e.preventDefault(); fired = false; }
+    }, true);
+
+    el.addEventListener('contextmenu', e => e.preventDefault());
+  }
+
+  /* ── lightbox ── */
+  const lightbox = document.getElementById("lightbox");
+  const lbStrip  = document.getElementById("lb-strip");
+  let _lbItems = [], _lbLastIdx = 0;
+
+  function itemText(item) {
+    const v = item[LANG];
+    if (!v) return { title: '', desc: '', tag: '' };
+    if (typeof v === 'string') return { title: v, desc: '', tag: '' };
+    return { title: v.title || '', desc: v.desc || '', tag: v.tag || '' };
+  }
+
+  function buildSlides(items) {
+    lbStrip.innerHTML = "";
+    const n = items.length;
+    items.forEach((item, i) => {
+      const { title, desc, tag } = itemText(item);
+      const slide = document.createElement("div");
+      slide.className = "lb-slide";
+      const dotsHtml = n > 1
+        ? `<div class="lb-dots">${items.map((_, j) =>
+            `<div class="lb-dot${j === i ? " active" : ""}"></div>`).join("")}</div>`
+        : "";
+      const isVideo = /\.(mov|mp4)$/i.test(item.img);
+      const mediaHTML = isVideo
+        ? `<video src="${item.img}" controls playsinline preload="metadata"${item.thumb ? ` poster="${item.thumb}"` : ""}></video>`
+        : `<img src="${item.img}" alt="${title}" loading="lazy" />`;
+      slide.innerHTML = `
+        <div class="lb-slide-img" data-img="${item.img}">
+          ${mediaHTML}
+          <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+          <div class="lp-ripple"></div>
+        </div>
+        <div class="lb-slide-info">
+          ${dotsHtml}
+          ${title ? `<div class="lb-slide-title">${title}</div>` : ""}
+          ${desc  ? `<div class="lb-slide-desc">${desc}</div>`   : ""}
+          ${tag   ? `<span class="lb-slide-tag">${tag}</span>`   : ""}
+        </div>`;
+      lbStrip.appendChild(slide);
+      const imgBox = slide.querySelector('.lb-slide-img');
+      addLongPress(imgBox, () => item.img, () => itemText(item).title);
+    });
+  }
+
+  function openLightbox(items, startIdx) {
+    _lbItems = items; _lbLastIdx = startIdx;
+    buildSlides(items);
+    lightbox.classList.add("open");
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => {
+      lbStrip.children[startIdx]?.scrollIntoView({ behavior: "instant", inline: "start" });
+    });
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("lb-close").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeLightbox(); closeNoteModal(); } });
+
+  /* ── render ── */
+  function render() {
+    const ui   = UI_TEXT[LANG];
+    const site = SITE[LANG];
+
+    document.title = site.pageTitle;
+    document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
+    document.getElementById("hero-title").textContent    = site.city;
+    document.getElementById("hero-subtitle").textContent = site.subtitle;
+    document.getElementById("hero-weather").textContent   = WEATHER[LANG];
+    document.getElementById("gallery-title").textContent = ui.gallery;
+    document.getElementById("map-title").textContent     = ui.mapGuide;
+
+    /* note modal button labels */
+    noteBtnSave.textContent   = ui.noteSave;
+    noteBtnCancel.textContent = ui.noteCancel;
+    noteBtnDel.textContent    = ui.noteDelete;
+    noteTextarea.placeholder  = ui.notePlaceholder;
+
+    /* sig track */
+    const sigTrack = document.getElementById("sig-track");
+    sigTrack.innerHTML = "";
+    SIGNATURE_IMAGES.forEach((item, idx) => {
+      const label = itemText(item).title;
+      const card  = document.createElement("div");
+      card.className = "h-card";
+      card.dataset.img = item.img;
+      card.innerHTML = `
+        <img src="${item.img}" alt="${label}" loading="lazy" />
+        <div class="h-card-label">${label}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(SIGNATURE_IMAGES, idx));
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      sigTrack.appendChild(card);
+    });
+
+    /* gallery grid */
+    const grid = document.getElementById("gallery-grid");
+    grid.innerHTML = "";
+    GALLERY.forEach((item, idx) => {
+      const { title } = itemText(item);
+      const tile = document.createElement("div");
+      tile.className = "gallery-tile";
+      tile.dataset.img = item.img;
+      tile.setAttribute("role", "button");
+      tile.setAttribute("tabindex", "0");
+      tile.innerHTML = `
+        <img src="${item.img}" alt="${title}" loading="lazy" />
+        <div class="tile-overlay">${title}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      tile.addEventListener("click", () => openLightbox(GALLERY, idx));
+      tile.addEventListener("keydown", e => { if (e.key === "Enter") openLightbox(GALLERY, idx); });
+      addLongPress(tile, () => item.img, () => itemText(item).title);
+      grid.appendChild(tile);
+    });
+
+    /* map track */
+    const mapTrack = document.getElementById("map-track");
+    mapTrack.innerHTML = "";
+    MAP_IMAGES.forEach((item, idx) => {
+      const label = itemText(item).title;
+      const card  = document.createElement("div");
+      card.className = "h-card";
+      card.dataset.img = item.img;
+      card.style.cssText = "flex-basis:88vw;max-width:100%;";
+      card.innerHTML = `
+        <img src="${item.img}" alt="${label}" loading="lazy" />
+        <div class="h-card-label">${label}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(MAP_IMAGES, idx));
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      mapTrack.appendChild(card);
+    });
+
+    /* map guide list */
+    const mapList = document.getElementById("map-list");
+    mapList.innerHTML = "";
+    MAP_GUIDE.forEach(day => {
+      const d     = day[LANG] || day;
+      const stops = d.stops.map(s => `<span>${s}</span>`).join("");
+      mapList.insertAdjacentHTML("beforeend", `
+        <li class="map-day">
+          <div class="day-badge">${d.day}</div>
+          <div class="day-content">
+            <div class="day-title">${d.title}</div>
+            <div class="day-stops">${stops}</div>
+          </div>
+        </li>`);
+    });
+
+    /* food btn */
+    const foodBtn = document.getElementById("food-btn");
+    foodBtn.setAttribute("aria-label", ui.foodLabel);
+    foodBtn.setAttribute("title",      ui.foodLabel);
+
+    document.getElementById("btn-zh").classList.toggle("active", LANG === 'zh');
+    document.getElementById("btn-en").classList.toggle("active", LANG === 'en');
+    document.getElementById("fs-s").textContent = LANG === 'zh' ? '小' : 'S';
+    document.getElementById("fs-l").textContent = LANG === 'zh' ? '大' : 'L';
+  }
+
+  function setLang(lang) {
+    LANG = lang;
+    document.body.classList.toggle('lang-en', lang === 'en');
+    if (lightbox.classList.contains("open")) {
+      const idx = Math.round(lbStrip.scrollLeft / lbStrip.offsetWidth);
+      buildSlides(_lbItems);
+      requestAnimationFrame(() => {
+        lbStrip.children[idx]?.scrollIntoView({ behavior: "instant", inline: "start" });
+      });
+    }
+    render();
+  }
+
+  document.getElementById("btn-zh").addEventListener("click", () => setLang('zh'));
+  document.getElementById("btn-en").addEventListener("click", () => setLang('en'));
+
+  /* ── font size ── */
+  const root = document.documentElement;
+  function applyFontScale(scale) {
+    root.style.setProperty('--font-scale', scale);
+  }
+  document.querySelectorAll('.font-size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.font-size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFontScale(btn.dataset.size);
+    });
+  });
+  // initial apply
+  applyFontScale('1.05');
+
+  document.getElementById("food-btn").addEventListener("click", () => openLightbox(FOOD_IMAGES, 0));
+
+  render();
+</script>
+</body>
+</html>

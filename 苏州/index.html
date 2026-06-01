@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>苏州 · 家庭旅行</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=Ma+Shan+Zheng&family=Nunito:wght@500;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:        #1a1208;
+      --paper:      #faf7f2;
+      --warm:       #c8903a;
+      --warm-light: #f5e8ce;
+      --radius:     14px;
+      --font-serif: "Ma Shan Zheng", "Noto Serif SC", serif;
+      --font-sans:  "ZCOOL KuaiLe", "PingFang SC", "Hiragino Sans GB", sans-serif;
+      --font-serif-en: "Nunito", "Quicksand", "Varela Round", -apple-system, sans-serif;
+      --font-sans-en:  "Nunito Sans", "Nunito", "Quicksand", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      --font-scale: 1;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      font-size: calc(100% * var(--font-scale));
+    }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.lang-en {
+      font-family: var(--font-sans-en);
+    }
+    body.lang-en .hero-title,
+    body.lang-en .hero-subtitle,
+    body.lang-en .hero-weather,
+    body.lang-en .section-title,
+    body.lang-en .lb-slide-title,
+    body.lang-en .note-heading,
+    body.lang-en .note-btn,
+    body.lang-en .note-textarea,
+    body.lang-en .day-badge {
+      font-family: var(--font-serif-en);
+    }
+
+    /* ══════════════════════════════════════
+       LANGUAGE TOGGLE
+    ══════════════════════════════════════ */
+    .lang-bar {
+      position: fixed;
+      top: 0.5rem; left: 0.5rem;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem;
+      border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .lang-btn.active {
+      background: var(--warm);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       FONT SIZE BAR
+    ══════════════════════════════════════ */
+    .font-size-bar {
+      position: fixed;
+      top: 3rem; left: 0.5rem;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .font-size-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem;
+      border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .font-size-btn.active {
+      background: var(--warm);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       1. INTRO
+    ══════════════════════════════════════ */
+    .intro-section {
+      background:
+        linear-gradient(
+          180deg,
+          rgba(10,18,12,0.55) 0%,
+          rgba(8,16,10,0.38) 40%,
+          rgba(4,10,6,0.72) 100%
+        ),
+        url("background/suzhou.jpg") center/cover no-repeat;
+      padding: 1.8rem 0 0;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .intro-text { padding: 0 1.5rem 0.9rem; }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 10vw, 2.8rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.3);
+    }
+    .hero-subtitle {
+      margin-top: 0.5rem;
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 3.8vw, 1.3rem);
+      color: #d4e8c2;
+      letter-spacing: 0.18em;
+      opacity: 0.9;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    }
+    .hero-weather {
+      margin-top: 0.4rem;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.68);
+      letter-spacing: 0.06em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    /* ── shared horizontal track ── */
+    .h-track {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.4rem 0.7rem 1.4rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .h-track::-webkit-scrollbar { display: none; }
+
+    .h-card {
+      flex: 0 0 88vw;
+      max-width: 100%;
+      scroll-snap-align: center;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.32);
+      position: relative;
+      aspect-ratio: 2/3;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.18s ease;
+    }
+    .h-card:active { transform: scale(0.96); }
+    .h-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      -webkit-touch-callout: none;
+    }
+    .h-card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.55rem 0.7rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      color: #fff;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════
+       Section wrapper
+    ══════════════════════════════════════ */
+    section { padding: 1.25rem 1.25rem; }
+    .section-header {
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    /* ══════════════════════════════════════
+       2. GALLERY
+    ══════════════════════════════════════ */
+    .gallery-section { background: var(--paper); padding: 1.8rem 0 0; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    .gallery-tile {
+      position: relative;
+      border-radius: 9px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .gallery-tile:active { transform: scale(0.95); }
+    .gallery-tile img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+      -webkit-touch-callout: none;
+    }
+    .gallery-tile:hover img { transform: scale(1.07); }
+    .tile-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.45rem 0.35rem 0.4rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ══════════════════════════════════════
+       3. KNOW MORE
+    ══════════════════════════════════════ */
+    .know-section { background: #fffef9; padding: 1.8rem 0 0; }
+
+    .know-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6rem;
+    }
+    .know-card {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 4/5;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+      transition: transform 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .know-card:active { transform: scale(0.95); }
+    .know-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+      -webkit-touch-callout: none;
+    }
+    .know-card:hover img { transform: scale(1.05); }
+    .know-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.6rem 0.5rem 0.55rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ══════════════════════════════════════
+       LIGHTBOX
+    ══════════════════════════════════════ */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: #0d0b08;
+    }
+    .lightbox.open { display: block; animation: lbFadeIn 0.18s ease; }
+    @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+    .lb-close {
+      position: absolute;
+      bottom: 1.0rem; right: 1.0rem;
+      z-index: 10;
+      background: rgba(255,255,255,0.13);
+      border: none;
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s;
+    }
+    .lb-close:active { background: rgba(255,255,255,0.25); }
+
+    .lb-strip {
+      display: flex;
+      width: 100%; height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .lb-strip::-webkit-scrollbar { display: none; }
+
+    .lb-slide {
+      flex: 0 0 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .lb-slide-img {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d0b08;
+      position: relative;
+    }
+    .lb-slide-img img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+      -webkit-touch-callout: none;
+    }
+    .lb-slide-img video {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+      outline: none;
+    }
+
+    .lb-slide-info {
+      flex-shrink: 0;
+      padding: 0.75rem 1.3rem 1.8rem;
+      background: #100d07;
+      color: #fff;
+    }
+
+    .lb-dots {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin-bottom: 0.55rem;
+    }
+    .lb-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+    .lb-dot.active { background: var(--warm); transform: scale(1.35); }
+
+    .lb-slide-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .lb-slide-desc {
+      font-size: 0.92rem;
+      line-height: 1.72;
+      color: rgba(255,255,255,0.55);
+    }
+    .lb-slide-tag {
+      display: inline-block;
+      margin-top: 0.55rem;
+      padding: 0.18rem 0.55rem;
+      background: rgba(200,144,58,0.18);
+      color: var(--warm);
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* ══════════════════════════════════════
+       4. ROUTE
+    ══════════════════════════════════════ */
+    .route-section { background: #fff; padding: 1.8rem 0 0; }
+
+    .route-list { list-style: none; margin-top: 1rem; }
+    .route-day {
+      display: flex;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #ede8df;
+    }
+    .route-day:last-child { border-bottom: none; }
+    .day-badge {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--warm);
+      color: #fff;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .day-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+    .day-stops {
+      font-size: 0.9rem;
+      color: #6b5b45;
+      line-height: 1.6;
+    }
+    .day-stops span { display: inline-block; margin-right: 0.5rem; }
+    .day-stops span::before { content: "· "; color: var(--warm); }
+
+    /* ══════════════════════════════════════
+       FOOD STICKY BTN
+    ══════════════════════════════════════ */
+    .home-btn {
+      position: fixed;
+      bottom: 5.5rem; right: 1.5rem;
+      z-index: 400;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+      transition: transform 0.18s, box-shadow 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .home-btn:active { transform: scale(0.88); }
+    .home-btn:hover  { box-shadow: 0 6px 28px rgba(200,144,58,0.32); transform: scale(1.08); }
+    body:has(.lightbox.open) .home-btn { display: none; }
+
+    .food-btn {
+      position: fixed;
+      bottom: 1.5rem; right: 1.25rem;
+      z-index: 100;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2.5px solid var(--warm-light);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .food-btn:active { transform: scale(0.9); }
+    .food-btn:hover  { box-shadow: 0 6px 28px rgba(200,144,58,0.32); transform: scale(1.06); }
+
+    /* .max-w { max-width: 480px; margin: 0 auto; } */
+    .max-w { padding: 0 0.7rem; }
+
+    /* ══════════════════════════════════════
+       NOTE SYSTEM
+    ══════════════════════════════════════ */
+    .note-dot {
+      position: absolute;
+      top: 0.4rem; right: 0.4rem;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--warm);
+      color: #fff;
+      font-size: 0.62rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.38);
+      pointer-events: none;
+      z-index: 5;
+      line-height: 1;
+    }
+
+    /* long-press ripple ring while holding */
+    .lp-ripple {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 2.5px solid var(--warm);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 6;
+      transition: opacity 0.1s;
+    }
+    .lp-ripple.active { opacity: 1; animation: lpPulse 0.5s ease forwards; }
+    @keyframes lpPulse {
+      0%   { opacity: 0.7; transform: scale(1); }
+      100% { opacity: 0;   transform: scale(1.06); }
+    }
+
+    .note-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0,0,0,0.46);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .note-modal.open { display: flex; animation: lbFadeIn 0.2s ease; }
+
+    .note-inner {
+      background: var(--paper);
+      border-radius: var(--radius) var(--radius) 0 0;
+      width: 100%; max-width: 540px;
+      box-shadow: 0 -4px 32px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+    .note-preview {
+      width: 100%; height: 130px;
+      object-fit: cover; display: block;
+    }
+    .note-body { padding: 0.85rem 1rem 2rem; }
+    .note-heading {
+      font-family: var(--font-serif);
+      font-size: 1rem; font-weight: 700;
+      margin-bottom: 0.5rem; color: var(--ink);
+    }
+    .note-textarea {
+      width: 100%; min-height: 82px;
+      border: 1.5px solid #e0d8cc; border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+      font-family: var(--font-sans); font-size: 0.95rem;
+      color: var(--ink); background: #fff;
+      resize: vertical; outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    .note-textarea:focus { border-color: var(--warm); }
+    .note-actions {
+      display: flex; gap: 0.5rem;
+      margin-top: 0.7rem; justify-content: flex-end;
+    }
+    .note-btn {
+      border: none; border-radius: 20px;
+      padding: 0.38rem 1rem;
+      font-family: var(--font-sans); font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s; user-select: none; -webkit-user-select: none;
+    }
+    .note-btn:active { opacity: 0.7; }
+    .note-btn-cancel { background: #ede8df; color: var(--ink); }
+    .note-btn-delete { background: #ffe0dc; color: #c0392b; }
+    .note-btn-save   { background: var(--warm); color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-bar">
+  <button class="lang-btn active" id="btn-zh">中</button>
+  <button class="lang-btn" id="btn-en">E</button>
+</div>
+
+<!-- FONT SIZE TOGGLE -->
+<div class="font-size-bar">
+  <button class="font-size-btn active" id="fs-s" data-size="1.05">小</button>
+  <button class="font-size-btn" id="fs-l" data-size="1.2">大</button>
+</div>
+
+<!-- CONFIG -->
+<script>
+  let LANG = 'zh';
+
+  const SITE = {
+    zh: { city: "苏州", subtitle: "园林之城 · 东方威尼斯",                   pageTitle: "苏州 · 家庭旅行"       },
+    en: { city: "Suzhou", subtitle: "City of Gardens · Venice of the East", pageTitle: "Suzhou · Family Trip" },
+  };
+
+  const WEATHER = {
+    zh: "☀️  27° · 晴 · 宜出行",
+    en: "☀️  27°C · Sunny · Perfect Day Out",
+  };
+
+  const SIGNATURE_IMAGES = [
+  { img: "signature_images/modern_ancient.jpg", zh: "古今交融 · 双面苏州",       en: "Two Faces of Suzhou"      },
+  { img: "signature_images/吴宫御宴 - 沉浸式体验.jpg", zh: "吴宫御宴 - 深度沉浸式体验",       en: "Wu Palace Imperial Banquet Immersive Dining"      },
+  { img: "signature_images/苏州攻略1.jpg",        zh: "苏州旅行攻略",              en: "Suzhou Travel Guide"      },
+  ];
+
+  const GALLERY = [
+    {
+      img: "gallery_tiles/拙政园.jpg",
+      zh: { title: "拙政园", desc: "苏州四大名园之一，江南园林的典范。一步一景，如诗如画——远香堂、荷风四面亭、与谁同坐轩，每一处都是中国古典园林的教科书级呈现。", tag: "古典园林" },
+      en: { title: "Humble Administrator's Garden", desc: "The crown jewel of Suzhou's classical gardens and a UNESCO World Heritage site. Every turn reveals a living ink-wash painting — lotus pavilions, winding corridors, and borrowed mountain views compose the textbook of Jiangnan garden art.", tag: "Classical Garden" },
+    },
+    {
+      img: "gallery_tiles/狮子林.jpg",
+      zh: { title: "狮子林", desc: "苏州四大名园之一，被誉为'假山王国'。迷宫般的太湖石堆叠出奇峰异洞，每一块石头都藏着故事，孩子们的最爱。", tag: "古典园林" },
+      en: { title: "Lion Grove Garden", desc: "One of Suzhou's Four Great Gardens, famed as the 'Kingdom of Rockeries'. A labyrinth of taihu stone peaks and caverns — every rock hides a story, and kids absolutely love getting lost in the stone maze.", tag: "Classical Garden" },
+    },
+    {
+      img: "gallery_tiles/苏州博物馆.jpg",
+      zh: { title: "苏州博物馆", desc: "贝聿铭大师献给故乡的杰作——白墙灰顶、片石假山，现代几何与江南传统完美融合。馆藏丰富，建筑本身就是最值得看的展品。", tag: "建筑 · 文化" },
+      en: { title: "Suzhou Museum", desc: "I.M. Pei's gift to his ancestral home — white walls, grey rooflines, and a mountain-inspired rockery fuse modern geometry with Jiangnan tradition. The building itself is the most captivating exhibit.", tag: "Architecture · Culture" },
+    },
+    {
+      img: "gallery_tiles/平江路.jpg",
+      zh: { title: "平江路", desc: "清晨阿婆在河边浣衣，评弹声从茶馆飘出，摇橹船划过青石桥——这是一条活着的千年古街，江南水乡日常生活的真实画卷。", tag: "古街 · 生活" },
+      en: { title: "Pingjiang Road", desc: "At dawn, elderly residents wash by the canal, pingtan ballads drift from teahouses, and rowboats glide under stone bridges — a living thousand-year-old street that paints the real daily life of Jiangnan.", tag: "Old Street · Life" },
+    },
+    {
+      img: "gallery_tiles/七里山塘.jpg",
+      zh: { title: "七里山塘", desc: "傍晚灯笼亮起，通贵桥上红影映河，乌篷船慢慢划过。白居易任苏州刺史时开凿的这条古街，至今仍是唐诗里的江南夜景。", tag: "古街 · 夜景" },
+      en: { title: "Shantang Street", desc: "When red lanterns light up at dusk over Tonggui Bridge, their reflections shimmer on the canal as black-awning boats drift by — the very canal dug under poet-governor Bai Juyi still glows like a Tang poem after dark.", tag: "Old Street · Night" },
+    },
+    {
+      img: "gallery_tiles/观前街.jpg",
+      zh: { title: "观前街", desc: "因玄妙观而得名的千年商业街，苏州古城最繁华的中心。老字号、新潮店、地道小吃交织在一起，是感受苏州市井烟火的最佳去处。", tag: "商业街区" },
+      en: { title: "Guanqian Street", desc: "Named after the ancient Xuanmiao Temple, this thousand-year-old commercial street is the bustling heart of old Suzhou — heritage brands, trendy shops, and authentic street snacks collide in the city's most soulful crowd.", tag: "Shopping · Soul" },
+    },
+    {
+      img: "gallery_tiles/沧浪亭.jpg",
+      zh: { title: "沧浪亭", desc: "苏州最古老的园林，始建于北宋。'沧浪之水清兮，可以濯吾缨'——廊桥蜿蜒、竹影婆娑，是文人雅士吟诗作画的清幽之境。", tag: "古典园林" },
+      en: { title: "Surging Wave Pavilion", desc: "Suzhou's oldest surviving garden, dating to the Northern Song Dynasty. Its name comes from an ancient verse — winding covered walkways, whispering bamboo, and a serenity that has inspired poets and painters for a millennium.", tag: "Classical Garden" },
+    },
+    {
+      img: "gallery_tiles/东方之门 大秋裤.jpg",
+      zh: { title: "东方之门 \"大秋裤\"", desc: "苏州最具话题性的新地标，昵称'大秋裤'。301.8米高，矗立金鸡湖畔——古典园林之城拥抱现代化的最鲜明象征，夜景尤其震撼。", tag: "现代地标" },
+      en: { title: "Gate of the Orient", desc: "Suzhou's most talked-about new landmark, nicknamed 'the Big Pants'. Standing 301.8m over Jinji Lake, it's the boldest symbol of a classical garden city embracing modernity — especially striking when lit up at night.", tag: "Modern Landmark" },
+    },
+    {
+      img: "gallery_tiles/金鸡湖.jpg",
+      zh: { title: "金鸡湖", desc: "苏州工业园区的城市明珠——环湖步道、音乐喷泉、诚品书店、月光码头……在古典园林之外，这里是苏州摩登、活力、国际化的另一面。", tag: "城市 · 湖景" },
+      en: { title: "Jinji Lake", desc: "The urban jewel of Suzhou Industrial Park — waterfront promenades, musical fountains, the Eslite bookstore, and Moonlight Marina. Beyond the classical gardens, this is Suzhou's modern, cosmopolitan face.", tag: "Urban · Lakeside" },
+    },
+    {
+      img: "gallery_tiles/吴宫御宴 - 沉浸式体验.jpg",
+      zh: { title: "吴宫御宴 - 沉浸式体验", desc: "穿越回春秋吴国——着华服、品御膳、赏古乐，在沉浸式互动演艺中体验千年吴文化的宫廷盛宴。适合全家一起穿越！", tag: "沉浸体验" },
+      en: { title: "Wu Palace Imperial Banquet Immersive Dining", desc: "Travel back to the ancient Wu Kingdom — don period costumes, savour royal cuisine, and enjoy traditional music in an immersive interactive performance. A time-travel experience the whole family will love!", tag: "Immersive Experience" },
+    },
+    {
+      img: "gallery_tiles/虎山丘风景区.jpg",
+      zh: { title: "虎丘景区", desc: "虎丘塔比比萨斜塔还早200多年，倾斜4度依然屹立不倒，绕着塔走一圈，真能感受到古代建筑的厉害之处。", tag: "历史 · 古迹" },
+      en: { title: "Tiger Hill", desc: "The Tiger Hill Pagoda predates the Leaning Tower of Pisa by over 200 years — still standing tall at a 4-degree tilt. Walk around it once, and you'll feel the astonishing engineering prowess of ancient China.", tag: "History · Landmark" },
+    },
+    {
+      img: "gallery_tiles/阊门遗址.jpg",
+      zh: { title: "阊门遗址", desc: "春秋时期伍子胥建的吴国八门之一，站在城楼上能看山塘街和运河，古今同框特别有感觉。", tag: "古迹 · 城门" },
+      en: { title: "Changmen Gate Ruins", desc: "One of the eight gates of the ancient Wu Kingdom, built by Wu Zixu in the Spring and Autumn period. Stand atop the gate and gaze across Shantang Street and the Grand Canal — a single frame that spans 2,500 years.", tag: "Historic Gate" },
+    },
+    {
+      img: "gallery_tiles/寒山寺.jpg",
+      zh: { title: "寒山寺 ~ 姑苏城外寒山寺，夜半钟声到客船", desc: "'姑苏城外寒山寺，夜半钟声到客船'就在这儿，走进寺门仿佛踏入诗句里，黄墙黛瓦间禅意满满，连风都变得温柔了。", tag: "古刹 · 诗意" },
+      en: { title: "Hanshan Temple", desc: "The very place immortalised in the Tang poem: 'Outside Gusu's walls, Hanshan Temple stands — its midnight bell reaches the traveller's boat.' Step through the gate and into the verse, where yellow walls and grey tiles breathe Zen, and even the wind turns gentle.", tag: "Temple · Poetry" },
+    },
+  ];
+
+  const KNOW_MORE = [
+    {
+      img: "know_more/苏州九大园林.jpg",
+      zh: { title: "苏州九大园林", desc: "拙政园、留园、狮子林、沧浪亭、网师园、怡园、耦园、艺圃、环秀山庄——这九座园林被联合国教科文组织列入世界文化遗产。每一座都是江南园林艺术的巅峰之作，体现了'虽由人作，宛自天开'的造园理念，将山水自然浓缩于方寸之间。", tag: "世界遗产" },
+      en: { title: "Nine Great Gardens", desc: "Nine of Suzhou's classical gardens are UNESCO World Heritage sites — each a pinnacle of Jiangnan garden art. They embody the ancient philosophy of 'though created by human hands, appearing as if born of nature' (虽由人作，宛自天开), distilling mountains and waters into poetic miniature worlds.", tag: "World Heritage" },
+    },
+    {
+      img: "know_more/园林洞门.jpg",
+      zh: { title: "园林洞门", desc: "洞门是中国古典园林中最诗意的'画框'——门中见景，景中有门。每一扇洞门的位置与形状都精心设计（满月、宝瓶、海棠……），框出一幅随四季流转而变化的天然画卷，体现了'借景'与'框景'手法的精髓，让有限空间生出无限意境。", tag: "造园艺术" },
+      en: { title: "Garden Moon Gates", desc: "Moon gates are the most poetic 'picture frames' in classical Chinese gardens — framing views within views. Each opening (full moon, vase, crabapple shapes...) is carefully positioned to capture a living landscape that changes with the seasons, embodying the art of 'borrowed scenery' (借景) and 'framed vistas' (框景).", tag: "Garden Art" },
+    },
+  ];
+
+  const ROUTE_IMAGES = [
+    { img: "suggested_route/路线板块.jpg", zh: "苏州游玩路线", en: "Suzhou Suggested Routes" },
+  ];
+
+  const ROUTE = [];
+
+  const FOOD_IMAGES = [
+    {
+      img: "food/苏州美食.jpg",
+      zh: { title: "苏州美食总览", desc: "苏帮菜以'甜'著称，讲究时令、刀工与火候。从一碗头汤面开始，苏州人的一天便浸在精致的味道里——红烧划水、清炒虾仁、樱桃肉……每一道都是江南饮食文化的缩影。", tag: "美食总览" },
+      en: { title: "Suzhou Food Overview", desc: "Suzhou cuisine is defined by its subtle sweetness and devotion to seasonality, knife work, and perfect timing. A Suzhou day begins with a bowl of 'first broth' noodles — and unfolds through red-braised fish tail, stir-fried shrimp, cherry-red pork… each dish a miniature of Jiangnan's culinary culture.", tag: "Food Guide" },
+    },
+    {
+      img: "food/苏州必吃.jpg",
+      zh: { title: "苏州必吃清单", desc: "哑巴生煎、桂花糖藕、鸡头米甜汤、太湖三白……苏州的必吃清单是一张用味蕾丈量古城的地图，每一口都带着水乡的温柔与历史的余韵。", tag: "必吃推荐" },
+      en: { title: "Suzhou Must-Eat List", desc: "Yaba pan-fried buns, osmanthus lotus root, foxnut sweet soup, Taihu's 'Three Whites'… This checklist is a map for measuring the ancient city one unforgettable bite at a time, each flavour carrying the gentleness of the water towns and the echo of centuries past.", tag: "Must-Try" },
+    },
+    {
+      img: "food/Metal Hands Coffee.jpg",
+      zh: { title: "Metal Hands 咖啡", desc: "当精品咖啡遇见江南古宅——Metal Hands 将现代咖啡文化注入苏式老建筑，手冲咖啡的香气与雕花窗棂的光影交织，是古城里最时髦的跨界碰撞。", tag: "咖啡 · 新潮" },
+      en: { title: "Metal Hands Coffee", desc: "When specialty coffee meets a heritage Jiangnan townhouse — Metal Hands pours modern café culture into old Suzhou architecture. The aroma of pour-over coffee mingles with light filtering through carved window lattices: the ancient city's most stylish collision of old and new.", tag: "Coffee · Trendy" },
+    },
+    {
+      img: "food/松鼠桂鱼.mp4",
+      zh: { title: "松鼠桂鱼", desc: "苏帮菜的头牌名菜——桂鱼剞花刀，炸至金黄如松鼠蓬尾，浇上酸甜茄汁，上桌时吱吱作响。这道菜考验刀工、油温、酱汁三道功夫，是苏州宴席上当之无愧的压轴大戏。", tag: "视频 · 名菜" },
+      en: { title: "Squirrel-Shaped Mandarin Fish", desc: "The signature dish of Suzhou cuisine — mandarin fish scored, fried golden like a squirrel's bushy tail, doused in sweet-sour tomato sauce that sizzles upon serving. A triple test of knife skill, oil temperature, and sauce balance — the undisputed showstopper of any Suzhou banquet.", tag: "Video · Signature" },
+    },
+    {
+      img: "food/李百蟹·蟹黄面·平江河畔（平江路总店).mov",
+      zh: { title: "李百蟹 · 蟹黄面（平江路总店）", desc: "坐落在平江河畔的蟹黄面专门店。观看一碗蟹黄面的诞生——从拆蟹取黄到金黄浇头上桌，每一帧都是对苏州秋季最奢侈的致敬。", tag: "视频 · 蟹味" },
+      en: { title: "Li Baixie · Crab Roe Noodles (Pingjiang Flagship)", desc: "A crab roe noodle specialist nestled by the Pingjiang canal. Watch a bowl come to life — from hand-picking crab roe to the golden pour over noodles, every frame is a tribute to Suzhou's most indulgent autumn ritual.", tag: "Video · Crab" },
+    },
+    {
+      img: "food/枫镇大肉面.jpg",
+      zh: { title: "枫镇大肉面", desc: "据传这面起源于枫桥镇，乾隆下江南时品尝后赞不绝口，御赐枫镇白汤大肉面。一碗好的枫镇大肉面，肉香浓郁的白汤散出酒香，龙须面火候恰到好处，肥美的枫镇大肉埋于汤下。当大肉的油花浮出，是品尝的最佳时机。", tag: "苏式面食" },
+      en: { title: "Fengzhen Pork Noodle Soup", desc: "Legend traces this noodle to Fengqiao Town, where Emperor Qianlong tasted and praised it during his southern tour, bestowing the imperial name. A perfect bowl: rich white broth fragrant with rice wine, delicate dragon-whisker noodles cooked to precision, and a generous cut of braised pork submerged beneath — the moment its glistening fat rises to the surface is the moment to begin.", tag: "Suzhou Noodles" },
+    },
+    {
+      img: "food/蟹黄面.jpg",
+      zh: { title: "蟹黄面", desc: "秋风起，蟹脚痒——苏州人最懂大闸蟹。金黄油亮的蟹黄蟹膏浇在劲道面条上，每一口都是太湖的至鲜馈赠，是秋季来苏州必吃的一碗面。", tag: "季节限定" },
+      en: { title: "Crab Roe Noodles", desc: "When autumn winds blow, crabs beckon — and Suzhou people answer. Golden, glistening crab roe and cream blanket chewy noodles: every mouthful is Taihu Lake's ultimate gift of umami. The one bowl you must eat when autumn arrives in Suzhou.", tag: "Seasonal" },
+    },
+    {
+      img: "food/大虾生煎.jpg",
+      zh: { title: "大虾生煎", desc: "苏州生煎的底壳金黄酥脆，咬开薄皮，鲜甜汤汁瞬间涌出，一整只大虾藏于肉馅之中。先咬小口吸汤，再大口吃——这是苏州人默认的吃法。", tag: "街头小吃" },
+      en: { title: "Prawn Pan-Fried Buns", desc: "Suzhou-style shengjian: golden-crisp bottoms, thin skins that burst with savoury-sweet broth, and a whole prawn tucked inside the pork filling. Nibble a small hole, slurp the soup, then devour — the Suzhou way.", tag: "Street Food" },
+    },
+    {
+      img: "food/金桔东坡肉.jpg",
+      zh: { title: "金桔东坡肉", desc: "东坡肉的苏州升级版——加入金桔慢炖，果香化解肥腻，五花肉酥烂入口即化，酱色红亮，甜中带微酸。配一碗白米饭，是人间至味。", tag: "经典名菜" },
+      en: { title: "Dongpo Pork with Kumquat", desc: "Suzhou's upgrade on the classic: slow-braised with kumquats, whose fruity brightness cuts through the richness. The pork belly melts on the tongue, glazed mahogany-red, sweet with a whisper of tart — heaven over a bowl of steamed rice.", tag: "Signature Dish" },
+    },
+    {
+      img: "food/古法焖肉 - 松鹤楼.jpg",
+      zh: { title: "古法焖肉 · 松鹤楼", desc: "松鹤楼——始创于乾隆年间的百年老字号。古法焖肉以文火慢炖数小时，肉质酥而不烂，酱香渗透肌理，是苏州人宴客的体面之选。", tag: "老字号" },
+      en: { title: "Traditional Braised Pork · Songhelou", desc: "Songhelou — a century-old restaurant founded during the Qianlong reign. Their traditional braised pork is slow-cooked for hours over a gentle flame until tender yet intact, every fibre steeped in aromatic soy. The Suzhou choice for hosting guests with dignity.", tag: "Heritage Brand" },
+    },
+    {
+      img: "food/付小锅·苏式火锅·阊门.jpg",
+      zh: { title: "付小锅 · 苏式火锅（阊门）", desc: "苏式火锅不同于川渝的麻辣，汤底清鲜醇厚，以时令食材为主角。付小锅坐落在阊门古城楼下，边涮边赏古城夜色，是冬日里最温暖的姑苏味道。", tag: "苏式火锅" },
+      en: { title: "Fu Xiaoguo · Suzhou Hotpot (Changmen)", desc: "Unlike the fiery Sichuan version, Suzhou-style hotpot features a clear, umami-rich broth that lets seasonal ingredients shine. Nestled beneath the ancient Changmen city gate, Fu Xiaoguo pairs bubbling pots with historic night views — the warmest taste of Gusu on a winter evening.", tag: "Suzhou Hotpot" },
+    },
+    {
+      img: "food/姑苏船宴.jpg",
+      zh: { title: "姑苏船宴", desc: "泛舟古运河，品苏式船点——这是一场流动的江南盛宴。船宴自古便是苏州文人雅士的社交方式，精致的点心和时令小菜随船而行，伴着两岸灯火与评弹小调，是独一无二的文化体验。", tag: "文化体验" },
+      en: { title: "Gusu Boat Banquet", desc: "Drifting along ancient canals while savouring delicate boat pastries — a floating Jiangnan feast. Since ancient times, boat banquets have been the Suzhou literati's way of socialising: exquisite dim sum and seasonal bites glide with you, framed by lantern-lit banks and the strains of pingtan ballads.", tag: "Cultural Experience" },
+    },
+    {
+      img: "food/步行街美食攻略.jpg",
+      zh: { title: "步行街美食攻略", desc: "观前街、平江路、山塘街——苏州最热闹的美食聚集地。从百年老字号到网红新店，这份攻略带你逛吃苏州最地道的烟火街巷，感受舌尖上的姑苏。", tag: "逛吃指南" },
+      en: { title: "Walking Street Food Guide", desc: "Guanqian Street, Pingjiang Road, Shantang Street — Suzhou's liveliest food hubs. From century-old heritage brands to trendy newcomers, this guide walks you through the city's most authentic, soul-warming food streets to experience Gusu through your taste buds.", tag: "Food Walk" },
+    },
+    {
+      img: "food/苏州平江路攻略.jpg",
+      zh: { title: "平江路美食攻略", desc: "平江路不只是一条古街，更是苏州小吃的活态博物馆。沿着青石板路，一路尝遍桂花糕、糖粥、海棠糕，再钻进茶馆听一曲评弹——用舌尖读一首流动的江南诗。", tag: "街区攻略" },
+      en: { title: "Pingjiang Road Food Guide", desc: "Pingjiang Road isn't just an old street — it's a living museum of Suzhou snacks. Follow the cobblestones and taste your way through osmanthus cake, sweet congee, and crabapple pastry, then duck into a teahouse for pingtan ballads — savour a flowing Jiangnan poem with all your senses.", tag: "Street Guide" },
+    }
+  ];
+
+  const UI_TEXT = {
+    zh: { gallery: "景点打卡", knowMore: "苏州你知多少？", route: "推荐路线", foodLabel: "查看美食推荐",
+          noteTitle: "我的备注", notePlaceholder: "写下你的想法…",
+          noteSave: "保存", noteCancel: "取消", noteDelete: "删除" },
+    en: { gallery: "Sights",   knowMore: "Do you Know", route: "Suggested Route", foodLabel: "View Food Guide",
+          noteTitle: "My Note", notePlaceholder: "Write a note…",
+          noteSave: "Save",   noteCancel: "Cancel",  noteDelete: "Delete" },
+  };
+</script>
+
+<!-- 1. INTRO -->
+<section class="intro-section">
+  <div class="intro-text">
+    <h1 class="hero-title" id="hero-title"></h1>
+    <p class="hero-subtitle" id="hero-subtitle"></p>
+    <p class="hero-weather" id="hero-weather"></p>
+  </div>
+  <div class="h-track" id="sig-track"></div>
+</section>
+
+<!-- 2. GALLERY -->
+<section class="gallery-section">
+  <div class="max-w">
+    <div class="section-header">
+      <h2 class="section-title" id="gallery-title"></h2>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lb-close" aria-label="关闭">✕</button>
+  <div class="lb-strip" id="lb-strip"></div>
+</div>
+
+<!-- 4. ROUTE -->
+<section class="route-section">
+  <!-- <div class="max-w"> -->
+    <div class="section-header">
+      <h2 class="section-title" id="route-title"></h2>
+    </div>
+    <div class="h-track" id="route-track"></div>
+    <ul class="route-list" id="route-list"></ul>
+  <!-- </div> -->
+</section>
+
+<!-- 3. KNOW MORE -->
+<section class="know-section">
+  <div class="max-w">
+    <div class="section-header">
+      <h2 class="section-title" id="know-title"></h2>
+    </div>
+    <div class="know-grid" id="know-grid"></div>
+  </div>
+</section>
+
+<!-- HOME BTN -->
+<a href="../index.html" class="home-btn" id="home-btn" title="Home">🏠</a>
+
+<!-- FOOD BTN -->
+<button class="food-btn" id="food-btn">🍜</button>
+
+<!-- NOTE MODAL -->
+<div class="note-modal" id="note-modal" role="dialog" aria-modal="true">
+  <div class="note-inner">
+    <img class="note-preview" id="note-preview" src="" alt="" />
+    <div class="note-body">
+      <div class="note-heading" id="note-heading"></div>
+      <textarea class="note-textarea" id="note-textarea" rows="4"></textarea>
+      <div class="note-actions">
+        <button class="note-btn note-btn-delete" id="note-btn-delete"></button>
+        <button class="note-btn note-btn-cancel" id="note-btn-cancel"></button>
+        <button class="note-btn note-btn-save"   id="note-btn-save"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script>
+  /* ── note storage ── */
+  function noteKey(img) { return 'note:' + img; }
+  function getNote(img) { return sessionStorage.getItem(noteKey(img)) || ''; }
+  function hasNote(img) { return !!sessionStorage.getItem(noteKey(img)); }
+  function saveNote(img, text) {
+    if (text.trim()) sessionStorage.setItem(noteKey(img), text.trim());
+    else             sessionStorage.removeItem(noteKey(img));
+  }
+
+  function refreshNoteDots() {
+    document.querySelectorAll('[data-img] .note-dot').forEach(dot => {
+      const container = dot.closest('[data-img]');
+      dot.style.display = hasNote(container.dataset.img) ? 'flex' : 'none';
+    });
+  }
+
+  /* ── note modal ── */
+  let _noteImg = '';
+  const noteModal    = document.getElementById('note-modal');
+  const noteTextarea = document.getElementById('note-textarea');
+  const noteHeading  = document.getElementById('note-heading');
+  const notePreview  = document.getElementById('note-preview');
+  const noteBtnDel   = document.getElementById('note-btn-delete');
+  const noteBtnCancel= document.getElementById('note-btn-cancel');
+  const noteBtnSave  = document.getElementById('note-btn-save');
+
+  function openNoteModal(img, title) {
+    _noteImg = img;
+    notePreview.src = img;
+    notePreview.alt = title;
+    noteHeading.textContent = title || UI_TEXT[LANG].noteTitle;
+    noteTextarea.value = getNote(img);
+    noteTextarea.placeholder = UI_TEXT[LANG].notePlaceholder;
+    noteBtnDel.style.display = hasNote(img) ? 'inline-block' : 'none';
+    noteModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => noteTextarea.focus(), 60);
+  }
+
+  function closeNoteModal() {
+    noteModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  noteBtnSave.addEventListener('click', () => {
+    saveNote(_noteImg, noteTextarea.value);
+    refreshNoteDots();
+    closeNoteModal();
+  });
+  noteBtnDel.addEventListener('click', () => {
+    saveNote(_noteImg, '');
+    refreshNoteDots();
+    closeNoteModal();
+  });
+  noteBtnCancel.addEventListener('click', closeNoteModal);
+  noteModal.addEventListener('click', e => { if (e.target === noteModal) closeNoteModal(); });
+
+  /* ── long press ── */
+  const LP_MS = 500;
+
+  function addLongPress(el, getImg, getTitle) {
+    let timer = null, startX = 0, startY = 0, fired = false;
+    const ripple = el.querySelector('.lp-ripple');
+
+    function arm(x, y) {
+      startX = x; startY = y; fired = false;
+      timer = setTimeout(() => {
+        fired = true;
+        if (ripple) { ripple.classList.remove('active'); void ripple.offsetWidth; ripple.classList.add('active'); }
+        openNoteModal(getImg(), getTitle());
+      }, LP_MS);
+    }
+    function disarm() { clearTimeout(timer); timer = null; }
+    function move(x, y) {
+      if (Math.abs(x - startX) > 8 || Math.abs(y - startY) > 8) disarm();
+    }
+
+    el.addEventListener('touchstart', e => {
+      const t = e.touches[0]; arm(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener('touchmove', e => {
+      const t = e.touches[0]; move(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener('touchend',    disarm);
+    el.addEventListener('touchcancel', disarm);
+
+    el.addEventListener('mousedown', e => { if (e.button === 0) arm(e.clientX, e.clientY); });
+    el.addEventListener('mousemove', e => move(e.clientX, e.clientY));
+    el.addEventListener('mouseup',   disarm);
+
+    /* swallow the click that follows a long press */
+    el.addEventListener('click', e => {
+      if (fired) { e.stopImmediatePropagation(); e.preventDefault(); fired = false; }
+    }, true);
+
+    el.addEventListener('contextmenu', e => e.preventDefault());
+  }
+
+  /* ── lightbox ── */
+  const lightbox = document.getElementById("lightbox");
+  const lbStrip  = document.getElementById("lb-strip");
+  let _lbItems = [], _lbLastIdx = 0;
+
+  function itemText(item) {
+    const v = item[LANG];
+    if (!v) return { title: '', desc: '', tag: '' };
+    if (typeof v === 'string') return { title: v, desc: '', tag: '' };
+    return { title: v.title || '', desc: v.desc || '', tag: v.tag || '' };
+  }
+
+  function buildSlides(items) {
+    lbStrip.innerHTML = "";
+    const n = items.length;
+    items.forEach((item, i) => {
+      const { title, desc, tag } = itemText(item);
+      const slide = document.createElement("div");
+      slide.className = "lb-slide";
+      const dotsHtml = n > 1
+        ? `<div class="lb-dots">${items.map((_, j) =>
+            `<div class="lb-dot${j === i ? " active" : ""}"></div>`).join("")}</div>`
+        : "";
+      const isVideo = /\.(mov|mp4)$/i.test(item.img);
+      const mediaHTML = isVideo
+        ? `<video src="${item.img}" controls playsinline preload="metadata"></video>`
+        : `<img src="${item.img}" alt="${title}" loading="lazy" />`;
+      slide.innerHTML = `
+        <div class="lb-slide-img" data-img="${item.img}">
+          ${mediaHTML}
+          <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+          <div class="lp-ripple"></div>
+        </div>
+        <div class="lb-slide-info">
+          ${dotsHtml}
+          ${title ? `<div class="lb-slide-title">${title}</div>` : ""}
+          ${desc  ? `<div class="lb-slide-desc">${desc}</div>`   : ""}
+          ${tag   ? `<span class="lb-slide-tag">${tag}</span>`   : ""}
+        </div>`;
+      lbStrip.appendChild(slide);
+      const imgBox = slide.querySelector('.lb-slide-img');
+      addLongPress(imgBox, () => item.img, () => itemText(item).title);
+    });
+  }
+
+  function openLightbox(items, startIdx) {
+    _lbItems = items; _lbLastIdx = startIdx;
+    buildSlides(items);
+    lightbox.classList.add("open");
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => {
+      lbStrip.children[startIdx]?.scrollIntoView({ behavior: "instant", inline: "start" });
+    });
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("lb-close").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeLightbox(); closeNoteModal(); } });
+
+  /* ── render ── */
+  function render() {
+    const ui   = UI_TEXT[LANG];
+    const site = SITE[LANG];
+
+    document.title = site.pageTitle;
+    document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
+    document.getElementById("hero-title").textContent    = site.city;
+    document.getElementById("hero-subtitle").textContent = site.subtitle;
+    document.getElementById("hero-weather").textContent   = WEATHER[LANG];
+    document.getElementById("gallery-title").textContent = ui.gallery;
+    document.getElementById("know-title").textContent    = ui.knowMore;
+    document.getElementById("route-title").textContent   = ui.route;
+
+    /* note modal button labels */
+    noteBtnSave.textContent   = ui.noteSave;
+    noteBtnCancel.textContent = ui.noteCancel;
+    noteBtnDel.textContent    = ui.noteDelete;
+    noteTextarea.placeholder  = ui.notePlaceholder;
+
+    /* sig track */
+    const sigTrack = document.getElementById("sig-track");
+    sigTrack.innerHTML = "";
+    SIGNATURE_IMAGES.forEach((item, idx) => {
+      const label = itemText(item).title;
+      const card  = document.createElement("div");
+      card.className = "h-card";
+      card.dataset.img = item.img;
+      card.innerHTML = `
+        <img src="${item.img}" alt="${label}" loading="lazy" />
+        <div class="h-card-label">${label}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(SIGNATURE_IMAGES, idx));
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      sigTrack.appendChild(card);
+    });
+
+    /* gallery grid */
+    const grid = document.getElementById("gallery-grid");
+    grid.innerHTML = "";
+    GALLERY.forEach((item, idx) => {
+      const { title } = itemText(item);
+      const tile = document.createElement("div");
+      tile.className = "gallery-tile";
+      tile.dataset.img = item.img;
+      tile.setAttribute("role", "button");
+      tile.setAttribute("tabindex", "0");
+      tile.innerHTML = `
+        <img src="${item.img}" alt="${title}" loading="lazy" />
+        <div class="tile-overlay">${title}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      tile.addEventListener("click", () => openLightbox(GALLERY, idx));
+      tile.addEventListener("keydown", e => { if (e.key === "Enter") openLightbox(GALLERY, idx); });
+      addLongPress(tile, () => item.img, () => itemText(item).title);
+      grid.appendChild(tile);
+    });
+
+    /* know more grid */
+    const knowGrid = document.getElementById("know-grid");
+    knowGrid.innerHTML = "";
+    KNOW_MORE.forEach((item, idx) => {
+      const { title } = itemText(item);
+      const card = document.createElement("div");
+      card.className = "know-card";
+      card.dataset.img = item.img;
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      card.innerHTML = `
+        <img src="${item.img}" alt="${title}" loading="lazy" />
+        <div class="know-overlay">${title}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(KNOW_MORE, idx));
+      card.addEventListener("keydown", e => { if (e.key === "Enter") openLightbox(KNOW_MORE, idx); });
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      knowGrid.appendChild(card);
+    });
+
+    /* route track */
+    const routeTrack = document.getElementById("route-track");
+    routeTrack.innerHTML = "";
+    ROUTE_IMAGES.forEach((item, idx) => {
+      const label = itemText(item).title;
+      const card  = document.createElement("div");
+      card.className = "h-card";
+      card.dataset.img = item.img;
+      card.style.cssText = "flex-basis:88vw;max-width:100%;";
+      card.innerHTML = `
+        <img src="${item.img}" alt="${label}" loading="lazy" />
+        <div class="h-card-label">${label}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(ROUTE_IMAGES, idx));
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      routeTrack.appendChild(card);
+    });
+
+    /* route day list */
+    const routeList = document.getElementById("route-list");
+    routeList.innerHTML = "";
+    ROUTE.forEach(day => {
+      const d     = day[LANG] || day;
+      const stops = d.stops.map(s => `<span>${s}</span>`).join("");
+      routeList.insertAdjacentHTML("beforeend", `
+        <li class="route-day">
+          <div class="day-badge">${d.day}</div>
+          <div class="day-content">
+            <div class="day-title">${d.title}</div>
+            <div class="day-stops">${stops}</div>
+          </div>
+        </li>`);
+    });
+
+    /* food btn */
+    const foodBtn = document.getElementById("food-btn");
+    foodBtn.setAttribute("aria-label", ui.foodLabel);
+    foodBtn.setAttribute("title",      ui.foodLabel);
+
+    document.getElementById("btn-zh").classList.toggle("active", LANG === 'zh');
+    document.getElementById("btn-en").classList.toggle("active", LANG === 'en');
+    document.getElementById("fs-s").textContent = LANG === 'zh' ? '小' : 'S';
+    document.getElementById("fs-l").textContent = LANG === 'zh' ? '大' : 'L';
+  }
+
+  function setLang(lang) {
+    LANG = lang;
+    document.body.classList.toggle('lang-en', lang === 'en');
+    if (lightbox.classList.contains("open")) {
+      const idx = Math.round(lbStrip.scrollLeft / lbStrip.offsetWidth);
+      buildSlides(_lbItems);
+      requestAnimationFrame(() => {
+        lbStrip.children[idx]?.scrollIntoView({ behavior: "instant", inline: "start" });
+      });
+    }
+    render();
+  }
+
+  document.getElementById("btn-zh").addEventListener("click", () => setLang('zh'));
+  document.getElementById("btn-en").addEventListener("click", () => setLang('en'));
+
+  /* ── font size ── */
+  const root = document.documentElement;
+  function applyFontScale(scale) {
+    root.style.setProperty('--font-scale', scale);
+  }
+  document.querySelectorAll('.font-size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.font-size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFontScale(btn.dataset.size);
+    });
+  });
+  // initial apply
+  applyFontScale('1.05');
+
+  document.getElementById("food-btn").addEventListener("click", () => openLightbox(FOOD_IMAGES, 0));
+
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>绍兴 · 家庭旅行</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=Ma+Shan+Zheng&family=Nunito:wght@500;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:        #1a1208;
+      --paper:      #faf7f2;
+      --warm:       #c8903a;
+      --warm-light: #f5e8ce;
+      --radius:     14px;
+      --font-serif: "Ma Shan Zheng", "Noto Serif SC", serif;
+      --font-sans:  "ZCOOL KuaiLe", "PingFang SC", "Hiragino Sans GB", sans-serif;
+      --font-serif-en: "Nunito", "Quicksand", "Varela Round", -apple-system, sans-serif;
+      --font-sans-en:  "Nunito Sans", "Nunito", "Quicksand", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      --font-scale: 1;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      font-size: calc(100% * var(--font-scale));
+    }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.lang-en {
+      font-family: var(--font-sans-en);
+    }
+    body.lang-en .hero-title,
+    body.lang-en .hero-subtitle,
+    body.lang-en .hero-weather,
+    body.lang-en .section-title,
+    body.lang-en .lb-slide-title,
+    body.lang-en .note-heading,
+    body.lang-en .note-btn,
+    body.lang-en .note-textarea,
+    body.lang-en .day-badge {
+      font-family: var(--font-serif-en);
+    }
+
+    /* ══════════════════════════════════════
+       LANGUAGE TOGGLE
+    ══════════════════════════════════════ */
+    .lang-bar {
+      position: fixed;
+      top: 0.5rem; left: 0.5rem;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem;
+      border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .lang-btn.active {
+      background: var(--warm);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       FONT SIZE BAR
+    ══════════════════════════════════════ */
+    .font-size-bar {
+      position: fixed;
+      top: 3rem; left: 0.5rem;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 22px;
+      padding: 0.18rem 0.2rem;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .font-size-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.55);
+      padding: 0.22rem 0.72rem;
+      border-radius: 18px;
+      transition: background 0.18s, color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .font-size-btn.active {
+      background: var(--warm);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       1. INTRO
+    ══════════════════════════════════════ */
+    .intro-section {
+      background:
+        linear-gradient(
+          180deg,
+          rgba(10,18,12,0.55) 0%,
+          rgba(8,16,10,0.38) 40%,
+          rgba(4,10,6,0.72) 100%
+        ),
+        url("background/shaoxing_jiangnan_vibe1.jpg") center/cover no-repeat;
+      padding: 1.8rem 0 0;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .intro-text { padding: 0 1.5rem 0.9rem; }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 10vw, 2.8rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.3);
+    }
+    .hero-subtitle {
+      margin-top: 0.5rem;
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 3.8vw, 1.3rem);
+      color: #d4e8c2;
+      letter-spacing: 0.18em;
+      opacity: 0.9;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    }
+    .hero-weather {
+      margin-top: 0.4rem;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.68);
+      letter-spacing: 0.06em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    /* ── shared horizontal track ── */
+    .h-track {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.4rem 0.7rem 1.4rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .h-track::-webkit-scrollbar { display: none; }
+
+    .h-card {
+      flex: 0 0 88vw;
+      max-width: 100%;
+      scroll-snap-align: center;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.32);
+      position: relative;
+      aspect-ratio: 2/3;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.18s ease;
+    }
+    .h-card:active { transform: scale(0.96); }
+    .h-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      -webkit-touch-callout: none;
+    }
+    .h-card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.55rem 0.7rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      color: #fff;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════
+       Section wrapper
+    ══════════════════════════════════════ */
+    section { padding: 1.25rem 1.25rem; }
+    .section-header {
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    /* ══════════════════════════════════════
+       2. GALLERY
+    ══════════════════════════════════════ */
+    .gallery-section { background: var(--paper); padding: 1.8rem 0 0; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+    .gallery-tile {
+      position: relative;
+      border-radius: 9px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .gallery-tile:active { transform: scale(0.95); }
+    .gallery-tile img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+      -webkit-touch-callout: none;
+    }
+    .gallery-tile:hover img { transform: scale(1.07); }
+    .tile-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.45rem 0.35rem 0.4rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ══════════════════════════════════════
+       LIGHTBOX
+    ══════════════════════════════════════ */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: #0d0b08;
+    }
+    .lightbox.open { display: block; animation: lbFadeIn 0.18s ease; }
+    @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+    .lb-close {
+      position: absolute;
+      bottom: 1.0rem; right: 1.0rem;
+      z-index: 10;
+      background: rgba(255,255,255,0.13);
+      border: none;
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s;
+    }
+    .lb-close:active { background: rgba(255,255,255,0.25); }
+
+    .lb-strip {
+      display: flex;
+      width: 100%; height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .lb-strip::-webkit-scrollbar { display: none; }
+
+    .lb-slide {
+      flex: 0 0 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .lb-slide-img {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d0b08;
+      position: relative;
+    }
+    .lb-slide-img img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
+      -webkit-touch-callout: none;
+    }
+
+    .lb-slide-info {
+      flex-shrink: 0;
+      padding: 0.75rem 1.3rem 1.8rem;
+      background: #100d07;
+      color: #fff;
+    }
+
+    .lb-dots {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin-bottom: 0.55rem;
+    }
+    .lb-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+    .lb-dot.active { background: var(--warm); transform: scale(1.35); }
+
+    .lb-slide-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .lb-slide-desc {
+      font-size: 0.92rem;
+      line-height: 1.72;
+      color: rgba(255,255,255,0.55);
+    }
+    .lb-slide-tag {
+      display: inline-block;
+      margin-top: 0.55rem;
+      padding: 0.18rem 0.55rem;
+      background: rgba(200,144,58,0.18);
+      color: var(--warm);
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* ══════════════════════════════════════
+       3. ROUTE
+    ══════════════════════════════════════ */
+    .route-section { background: #fff; padding: 1.8rem 0 0; }
+
+    .route-list { list-style: none; margin-top: 1rem; }
+    .route-day {
+      display: flex;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #ede8df;
+    }
+    .route-day:last-child { border-bottom: none; }
+    .day-badge {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--warm);
+      color: #fff;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .day-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+    .day-stops {
+      font-size: 0.9rem;
+      color: #6b5b45;
+      line-height: 1.6;
+    }
+    .day-stops span { display: inline-block; margin-right: 0.5rem; }
+    .day-stops span::before { content: "· "; color: var(--warm); }
+
+    /* ══════════════════════════════════════
+       FOOD STICKY BTN
+    ══════════════════════════════════════ */
+    .home-btn {
+      position: fixed;
+      bottom: 5.5rem; right: 1.5rem;
+      z-index: 400;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(15,15,15,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+      transition: transform 0.18s, box-shadow 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .home-btn:active { transform: scale(0.88); }
+    .home-btn:hover  { box-shadow: 0 6px 28px rgba(200,144,58,0.32); transform: scale(1.08); }
+    body:has(.lightbox.open) .home-btn { display: none; }
+
+    .food-btn {
+      position: fixed;
+      bottom: 1.5rem; right: 1.25rem;
+      z-index: 100;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2.5px solid var(--warm-light);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .food-btn:active { transform: scale(0.9); }
+    .food-btn:hover  { box-shadow: 0 6px 28px rgba(200,144,58,0.32); transform: scale(1.06); }
+
+    /* .max-w { max-width: 480px; margin: 0 auto; } */
+    .max-w { padding: 0 0.7rem; }
+
+    /* ══════════════════════════════════════
+       NOTE SYSTEM
+    ══════════════════════════════════════ */
+    .note-dot {
+      position: absolute;
+      top: 0.4rem; right: 0.4rem;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--warm);
+      color: #fff;
+      font-size: 0.62rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.38);
+      pointer-events: none;
+      z-index: 5;
+      line-height: 1;
+    }
+
+    /* long-press ripple ring while holding */
+    .lp-ripple {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 2.5px solid var(--warm);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 6;
+      transition: opacity 0.1s;
+    }
+    .lp-ripple.active { opacity: 1; animation: lpPulse 0.5s ease forwards; }
+    @keyframes lpPulse {
+      0%   { opacity: 0.7; transform: scale(1); }
+      100% { opacity: 0;   transform: scale(1.06); }
+    }
+
+    .note-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0,0,0,0.46);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .note-modal.open { display: flex; animation: lbFadeIn 0.2s ease; }
+
+    .note-inner {
+      background: var(--paper);
+      border-radius: var(--radius) var(--radius) 0 0;
+      width: 100%; max-width: 540px;
+      box-shadow: 0 -4px 32px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+    .note-preview {
+      width: 100%; height: 130px;
+      object-fit: cover; display: block;
+    }
+    .note-body { padding: 0.85rem 1rem 2rem; }
+    .note-heading {
+      font-family: var(--font-serif);
+      font-size: 1rem; font-weight: 700;
+      margin-bottom: 0.5rem; color: var(--ink);
+    }
+    .note-textarea {
+      width: 100%; min-height: 82px;
+      border: 1.5px solid #e0d8cc; border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+      font-family: var(--font-sans); font-size: 0.95rem;
+      color: var(--ink); background: #fff;
+      resize: vertical; outline: none;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    .note-textarea:focus { border-color: var(--warm); }
+    .note-actions {
+      display: flex; gap: 0.5rem;
+      margin-top: 0.7rem; justify-content: flex-end;
+    }
+    .note-btn {
+      border: none; border-radius: 20px;
+      padding: 0.38rem 1rem;
+      font-family: var(--font-sans); font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s; user-select: none; -webkit-user-select: none;
+    }
+    .note-btn:active { opacity: 0.7; }
+    .note-btn-cancel { background: #ede8df; color: var(--ink); }
+    .note-btn-delete { background: #ffe0dc; color: #c0392b; }
+    .note-btn-save   { background: var(--warm); color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-bar">
+  <button class="lang-btn active" id="btn-zh">中</button>
+  <button class="lang-btn" id="btn-en">E</button>
+</div>
+
+<!-- FONT SIZE TOGGLE -->
+<div class="font-size-bar">
+  <button class="font-size-btn active" id="fs-s" data-size="1.05">小</button>
+  <button class="font-size-btn" id="fs-l" data-size="1.2">大</button>
+</div>
+
+<!-- CONFIG -->
+<script>
+  let LANG = 'zh';
+
+  const SITE = {
+    zh: { city: "绍兴", subtitle: "书法之乡，黄酒之都",                         pageTitle: "绍兴 · 家庭旅行"       },
+    en: { city: "Shaoxing", subtitle: "Land of Calligraphy · Home of Huangjiu", pageTitle: "Shaoxing · Family Trip" },
+  };
+
+  const WEATHER = {
+    zh: "☀️  28° · 多云 · 宜出行",
+    en: "☀️  28°C · Partly Cloudy · Perfect Day",
+  };
+
+  const SIGNATURE_IMAGES = [
+    { img: "signature_images/shaoxing_main_promo.jpg",     zh: "绍兴古城风貌", en: "Ancient City Panorama"    },
+    { img: "signature_images/shaoxing_jiangnan_vibe1.jpg", zh: "江南水乡韵味", en: "Jiangnan Watertown Charm" },
+    { img: "signature_images/shaoxing_must_go.jpg",        zh: "必去打卡胜地", en: "Must-Visit Highlights"    },
+  ];
+
+  const GALLERY = [
+    {
+      img: "gallery_tiles/鲁迅故里.jpg",
+      zh: { title: "鲁迅故里",          desc: "穿越百年时光，感受文豪故土的气息。青石板路、乌篷船、咸亨酒店……每一处都是鲁迅笔下的世界。建议安排半天慢慢游览。",                                                                                                   tag: "文化 · 历史"   },
+      en: { title: "Lu Xun's Hometown", desc: "Step back a century into the world of China's greatest literary master. Cobblestone lanes, black-awning boats, the famous Xianheng Inn — every corner is a scene from Lu Xun's stories. Allow half a day to wander.", tag: "Culture · History" },
+    },
+    {
+      img: "gallery_tiles/沈园.jpg",
+      zh: { title: "沈园",        desc: "宋代名园，陆游与唐琬凄美爱情的见证地。园内荷塘清幽，廊亭错落，四季皆有不同景色，春末夏初荷花盛开最为迷人。",                                                                                                                    tag: "古典园林"          },
+      en: { title: "Shen Garden", desc: "A Song-dynasty garden immortalised by the tragic love story of poet Lu You and Tang Wan. Serene lotus ponds and winding pavilions shift with every season — most beautiful when the lotuses bloom in late spring.",            tag: "Classical Garden"  },
+    },
+    {
+      img: "gallery_tiles/兰亭.jpg",
+      zh: { title: "兰亭",              desc: "天下第一行书《兰亭集序》诞生地。翠竹掩映、曲水流觞，书法爱好者的朝圣之地，亦是绝佳的山间漫步好去处。",                                                                                                                        tag: "书法 · 自然"          },
+      en: { title: "Orchid Pavilion", desc: "Birthplace of Wang Xizhi's Preface to the Orchid Pavilion — China's most celebrated piece of calligraphy. Bamboo groves, winding streams, and a quiet woodland walk await pilgrims and casual visitors alike.",             tag: "Calligraphy · Nature" },
+    },
+    {
+      img: "gallery_tiles/书圣故里.jpg",
+      zh: { title: "书圣故里",                   desc: "王羲之故居所在街区，古朴弄堂与书法文化交融。可在此购买本地书法文创，感受绍兴作为『书法之乡』的深厚底蕴。",                                                                                                  tag: "文化街区"           },
+      en: { title: "Calligraphy Sage Quarter", desc: "The historic neighbourhood of Wang Xizhi's family home, where ancient alleyways meet living ink culture. Browse handcrafted calligraphy souvenirs and soak up the city's identity as 'Hometown of Calligraphy'.", tag: "Cultural Quarter"  },
+    },
+    {
+      img: "gallery_tiles/仓桥直街.jpg",
+      zh: { title: "仓桥直街",       desc: "保存最完整的明清风貌历史街区之一。青砖黛瓦，枕河人家，傍晚散步时灯火倒映水中，是绍兴最有烟火气的街巷。",                                                                                      tag: "古街 · 烟火"  },
+      en: { title: "Cangqiao Street", desc: "One of China's best-preserved Ming–Qing historic streets. Grey brick, dark tiles, canal-front houses — at dusk, lantern light shimmers on the water. Shaoxing's most soulful, lived-in lane.", tag: "Old Street · Soul" },
+    },
+    {
+      img: "gallery_tiles/绍兴柯岩.jpg",
+      zh: { title: "柯岩风景区",          desc: "集石景、水景、寺庙于一体的综合景区。奇石嶙峋，湖面开阔，其中的『云骨』石柱高耸入天，是绍兴最具视觉冲击的自然景观。",                                                                                                        tag: "自然 · 奇石"             },
+      en: { title: "Keyan Scenic Area", desc: "A sweeping park of dramatic rock formations, broad lakes, and ancient temples. The towering 'Cloud Bone' stone pillar soars skyward — Shaoxing's most visually striking natural landmark.",                               tag: "Nature · Rock Formations" },
+    },
+    {
+      img: "gallery_tiles/十里荷塘.jpg",
+      zh: { title: "十里荷塘",          desc: "夏季六七月间荷花竞相盛开，连片荷塘一望无际。可乘乌篷船穿行荷间，听蛙鸣蝉唱，是孩子们最爱的夏日体验。",                                                                                                                         tag: "自然 · 季节限定"    },
+      en: { title: "Ten-Li Lotus Pond", desc: "From June to July, lotus blossoms carpet the water as far as the eye can see. Glide through the flowers on a black-awning boat while frogs and cicadas serenade you — the summer memory kids never forget.",               tag: "Nature · Seasonal" },
+    },
+  ];
+
+  const ROUTE_IMAGES = [
+    { img: "suggested_route/city_walk.jpg", zh: "绍兴一日游路线", en: "Shaoxing One-Day Walking Route" },
+  ];
+
+  const ROUTE = [];
+
+  const FOOD_IMAGES = [
+    { img: "food/美食推荐.jpg", zh: "绍兴美食", en: "Shaoxing Food Guide" },
+  ];
+
+  const UI_TEXT = {
+    zh: { gallery: "景点打卡", route: "推荐路线", foodLabel: "查看美食推荐",
+          noteTitle: "我的备注", notePlaceholder: "写下你的想法…",
+          noteSave: "保存", noteCancel: "取消", noteDelete: "删除" },
+    en: { gallery: "Sights",   route: "Suggested Route", foodLabel: "View Food Guide",
+          noteTitle: "My Note", notePlaceholder: "Write a note…",
+          noteSave: "Save",   noteCancel: "Cancel",  noteDelete: "Delete" },
+  };
+</script>
+
+<!-- 1. INTRO -->
+<section class="intro-section">
+  <div class="intro-text">
+    <h1 class="hero-title" id="hero-title"></h1>
+    <p class="hero-subtitle" id="hero-subtitle"></p>
+    <p class="hero-weather" id="hero-weather"></p>
+  </div>
+  <div class="h-track" id="sig-track"></div>
+</section>
+
+<!-- 2. GALLERY -->
+<section class="gallery-section">
+  <div class="max-w">
+    <div class="section-header">
+      <h2 class="section-title" id="gallery-title"></h2>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lb-close" aria-label="关闭">✕</button>
+  <div class="lb-strip" id="lb-strip"></div>
+</div>
+
+<!-- 3. ROUTE -->
+<section class="route-section">
+  <!-- <div class="max-w"> -->
+    <div class="section-header">
+      <h2 class="section-title" id="route-title"></h2>
+    </div>
+    <div class="h-track" id="route-track"></div>
+    <ul class="route-list" id="route-list"></ul>
+  <!-- </div> -->
+</section>
+
+<!-- HOME BTN -->
+<a href="../index.html" class="home-btn" id="home-btn" title="Home">🏠</a>
+
+<!-- FOOD BTN -->
+<button class="food-btn" id="food-btn">🍜</button>
+
+<!-- NOTE MODAL -->
+<div class="note-modal" id="note-modal" role="dialog" aria-modal="true">
+  <div class="note-inner">
+    <img class="note-preview" id="note-preview" src="" alt="" />
+    <div class="note-body">
+      <div class="note-heading" id="note-heading"></div>
+      <textarea class="note-textarea" id="note-textarea" rows="4"></textarea>
+      <div class="note-actions">
+        <button class="note-btn note-btn-delete" id="note-btn-delete"></button>
+        <button class="note-btn note-btn-cancel" id="note-btn-cancel"></button>
+        <button class="note-btn note-btn-save"   id="note-btn-save"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script>
+  /* ── note storage ── */
+  function noteKey(img) { return 'note:' + img; }
+  function getNote(img) { return sessionStorage.getItem(noteKey(img)) || ''; }
+  function hasNote(img) { return !!sessionStorage.getItem(noteKey(img)); }
+  function saveNote(img, text) {
+    if (text.trim()) sessionStorage.setItem(noteKey(img), text.trim());
+    else             sessionStorage.removeItem(noteKey(img));
+  }
+
+  function refreshNoteDots() {
+    document.querySelectorAll('[data-img] .note-dot').forEach(dot => {
+      const container = dot.closest('[data-img]');
+      dot.style.display = hasNote(container.dataset.img) ? 'flex' : 'none';
+    });
+  }
+
+  /* ── note modal ── */
+  let _noteImg = '';
+  const noteModal    = document.getElementById('note-modal');
+  const noteTextarea = document.getElementById('note-textarea');
+  const noteHeading  = document.getElementById('note-heading');
+  const notePreview  = document.getElementById('note-preview');
+  const noteBtnDel   = document.getElementById('note-btn-delete');
+  const noteBtnCancel= document.getElementById('note-btn-cancel');
+  const noteBtnSave  = document.getElementById('note-btn-save');
+
+  function openNoteModal(img, title) {
+    _noteImg = img;
+    notePreview.src = img;
+    notePreview.alt = title;
+    noteHeading.textContent = title || UI_TEXT[LANG].noteTitle;
+    noteTextarea.value = getNote(img);
+    noteTextarea.placeholder = UI_TEXT[LANG].notePlaceholder;
+    noteBtnDel.style.display = hasNote(img) ? 'inline-block' : 'none';
+    noteModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => noteTextarea.focus(), 60);
+  }
+
+  function closeNoteModal() {
+    noteModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  noteBtnSave.addEventListener('click', () => {
+    saveNote(_noteImg, noteTextarea.value);
+    refreshNoteDots();
+    closeNoteModal();
+  });
+  noteBtnDel.addEventListener('click', () => {
+    saveNote(_noteImg, '');
+    refreshNoteDots();
+    closeNoteModal();
+  });
+  noteBtnCancel.addEventListener('click', closeNoteModal);
+  noteModal.addEventListener('click', e => { if (e.target === noteModal) closeNoteModal(); });
+
+  /* ── long press ── */
+  const LP_MS = 500;
+
+  function addLongPress(el, getImg, getTitle) {
+    let timer = null, startX = 0, startY = 0, fired = false;
+    const ripple = el.querySelector('.lp-ripple');
+
+    function arm(x, y) {
+      startX = x; startY = y; fired = false;
+      timer = setTimeout(() => {
+        fired = true;
+        if (ripple) { ripple.classList.remove('active'); void ripple.offsetWidth; ripple.classList.add('active'); }
+        openNoteModal(getImg(), getTitle());
+      }, LP_MS);
+    }
+    function disarm() { clearTimeout(timer); timer = null; }
+    function move(x, y) {
+      if (Math.abs(x - startX) > 8 || Math.abs(y - startY) > 8) disarm();
+    }
+
+    el.addEventListener('touchstart', e => {
+      const t = e.touches[0]; arm(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener('touchmove', e => {
+      const t = e.touches[0]; move(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener('touchend',    disarm);
+    el.addEventListener('touchcancel', disarm);
+
+    el.addEventListener('mousedown', e => { if (e.button === 0) arm(e.clientX, e.clientY); });
+    el.addEventListener('mousemove', e => move(e.clientX, e.clientY));
+    el.addEventListener('mouseup',   disarm);
+
+    /* swallow the click that follows a long press */
+    el.addEventListener('click', e => {
+      if (fired) { e.stopImmediatePropagation(); e.preventDefault(); fired = false; }
+    }, true);
+
+    el.addEventListener('contextmenu', e => e.preventDefault());
+  }
+
+  /* ── lightbox ── */
+  const lightbox = document.getElementById("lightbox");
+  const lbStrip  = document.getElementById("lb-strip");
+  let _lbItems = [], _lbLastIdx = 0;
+
+  function itemText(item) {
+    const v = item[LANG];
+    if (!v) return { title: '', desc: '', tag: '' };
+    if (typeof v === 'string') return { title: v, desc: '', tag: '' };
+    return { title: v.title || '', desc: v.desc || '', tag: v.tag || '' };
+  }
+
+  function buildSlides(items) {
+    lbStrip.innerHTML = "";
+    const n = items.length;
+    items.forEach((item, i) => {
+      const { title, desc, tag } = itemText(item);
+      const slide = document.createElement("div");
+      slide.className = "lb-slide";
+      const dotsHtml = n > 1
+        ? `<div class="lb-dots">${items.map((_, j) =>
+            `<div class="lb-dot${j === i ? " active" : ""}"></div>`).join("")}</div>`
+        : "";
+      slide.innerHTML = `
+        <div class="lb-slide-img" data-img="${item.img}">
+          <img src="${item.img}" alt="${title}" loading="lazy" />
+          <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+          <div class="lp-ripple"></div>
+        </div>
+        <div class="lb-slide-info">
+          ${dotsHtml}
+          ${title ? `<div class="lb-slide-title">${title}</div>` : ""}
+          ${desc  ? `<div class="lb-slide-desc">${desc}</div>`   : ""}
+          ${tag   ? `<span class="lb-slide-tag">${tag}</span>`   : ""}
+        </div>`;
+      lbStrip.appendChild(slide);
+      const imgBox = slide.querySelector('.lb-slide-img');
+      addLongPress(imgBox, () => item.img, () => itemText(item).title);
+    });
+  }
+
+  function openLightbox(items, startIdx) {
+    _lbItems = items; _lbLastIdx = startIdx;
+    buildSlides(items);
+    lightbox.classList.add("open");
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => {
+      lbStrip.children[startIdx]?.scrollIntoView({ behavior: "instant", inline: "start" });
+    });
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("lb-close").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeLightbox(); closeNoteModal(); } });
+
+  /* ── render ── */
+  function render() {
+    const ui   = UI_TEXT[LANG];
+    const site = SITE[LANG];
+
+    document.title = site.pageTitle;
+    document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
+    document.getElementById("hero-title").textContent    = site.city;
+    document.getElementById("hero-subtitle").textContent = site.subtitle;
+    document.getElementById("hero-weather").textContent   = WEATHER[LANG];
+    document.getElementById("gallery-title").textContent = ui.gallery;
+    document.getElementById("route-title").textContent   = ui.route;
+
+    /* note modal button labels */
+    noteBtnSave.textContent   = ui.noteSave;
+    noteBtnCancel.textContent = ui.noteCancel;
+    noteBtnDel.textContent    = ui.noteDelete;
+    noteTextarea.placeholder  = ui.notePlaceholder;
+
+    /* sig track */
+    const sigTrack = document.getElementById("sig-track");
+    sigTrack.innerHTML = "";
+    SIGNATURE_IMAGES.forEach((item, idx) => {
+      const label = itemText(item).title;
+      const card  = document.createElement("div");
+      card.className = "h-card";
+      card.dataset.img = item.img;
+      card.innerHTML = `
+        <img src="${item.img}" alt="${label}" loading="lazy" />
+        <div class="h-card-label">${label}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(SIGNATURE_IMAGES, idx));
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      sigTrack.appendChild(card);
+    });
+
+    /* gallery grid */
+    const grid = document.getElementById("gallery-grid");
+    grid.innerHTML = "";
+    GALLERY.forEach((item, idx) => {
+      const { title } = itemText(item);
+      const tile = document.createElement("div");
+      tile.className = "gallery-tile";
+      tile.dataset.img = item.img;
+      tile.setAttribute("role", "button");
+      tile.setAttribute("tabindex", "0");
+      tile.innerHTML = `
+        <img src="${item.img}" alt="${title}" loading="lazy" />
+        <div class="tile-overlay">${title}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      tile.addEventListener("click", () => openLightbox(GALLERY, idx));
+      tile.addEventListener("keydown", e => { if (e.key === "Enter") openLightbox(GALLERY, idx); });
+      addLongPress(tile, () => item.img, () => itemText(item).title);
+      grid.appendChild(tile);
+    });
+
+    /* route track */
+    const routeTrack = document.getElementById("route-track");
+    routeTrack.innerHTML = "";
+    ROUTE_IMAGES.forEach((item, idx) => {
+      const label = itemText(item).title;
+      const card  = document.createElement("div");
+      card.className = "h-card";
+      card.dataset.img = item.img;
+      card.style.cssText = "flex-basis:88vw;max-width:100%;";
+      card.innerHTML = `
+        <img src="${item.img}" alt="${label}" loading="lazy" />
+        <div class="h-card-label">${label}</div>
+        <div class="note-dot" style="display:${hasNote(item.img)?'flex':'none'}">✎</div>
+        <div class="lp-ripple"></div>`;
+      card.addEventListener("click", () => openLightbox(ROUTE_IMAGES, idx));
+      addLongPress(card, () => item.img, () => itemText(item).title);
+      routeTrack.appendChild(card);
+    });
+
+    /* route day list */
+    const routeList = document.getElementById("route-list");
+    routeList.innerHTML = "";
+    ROUTE.forEach(day => {
+      const d     = day[LANG] || day;
+      const stops = d.stops.map(s => `<span>${s}</span>`).join("");
+      routeList.insertAdjacentHTML("beforeend", `
+        <li class="route-day">
+          <div class="day-badge">${d.day}</div>
+          <div class="day-content">
+            <div class="day-title">${d.title}</div>
+            <div class="day-stops">${stops}</div>
+          </div>
+        </li>`);
+    });
+
+    /* food btn */
+    const foodBtn = document.getElementById("food-btn");
+    foodBtn.setAttribute("aria-label", ui.foodLabel);
+    foodBtn.setAttribute("title",      ui.foodLabel);
+
+    document.getElementById("btn-zh").classList.toggle("active", LANG === 'zh');
+    document.getElementById("btn-en").classList.toggle("active", LANG === 'en');
+    document.getElementById("fs-s").textContent = LANG === 'zh' ? '小' : 'S';
+    document.getElementById("fs-l").textContent = LANG === 'zh' ? '大' : 'L';
+  }
+
+  function setLang(lang) {
+    LANG = lang;
+    document.body.classList.toggle('lang-en', lang === 'en');
+    if (lightbox.classList.contains("open")) {
+      const idx = Math.round(lbStrip.scrollLeft / lbStrip.offsetWidth);
+      buildSlides(_lbItems);
+      requestAnimationFrame(() => {
+        lbStrip.children[idx]?.scrollIntoView({ behavior: "instant", inline: "start" });
+      });
+    }
+    render();
+  }
+
+  document.getElementById("btn-zh").addEventListener("click", () => setLang('zh'));
+  document.getElementById("btn-en").addEventListener("click", () => setLang('en'));
+
+  /* ── font size ── */
+  const root = document.documentElement;
+  function applyFontScale(scale) {
+    root.style.setProperty('--font-scale', scale);
+  }
+  document.querySelectorAll('.font-size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.font-size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFontScale(btn.dataset.size);
+    });
+  });
+  // initial apply
+  applyFontScale('1.05');
+
+  document.getElementById("food-btn").addEventListener("click", () => openLightbox(FOOD_IMAGES, 0));
+
+  render();
+</script>
+</body>
+</html>
